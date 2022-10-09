@@ -19,7 +19,7 @@ int fact(int n){
 float sommeInf(){
     int f = 1;
     float res = 1.;
-    for (int i = 2; i < 12; i++)
+    for (int i = 2; i < 13; i++)
     {        
         printf("res1 = %f\n", res);
         res += (1./(f));
@@ -28,17 +28,26 @@ float sommeInf(){
     return res;
 }
 
-double aux(int i, double x){
+/*void aux(int i, double x){
     if (i < 1) //i < 50
     {
-        printf("res2 = %f\n", x);
-        aux(i++,(i*x)-1);
+        printf("res2 = %f, iter %d\n", x, i);
+        //aux(i++,(i*x)-1.);
+        aux(i++,x);
     }
-}
-double suite(){
-    double x0 = sommeInf() - 1;
+}*/
+void suite(){
+    double x0 = sommeInf() - 1.;
+
+    printf("%.16f",sommeInf());
+    for (int i = 1; i < 50; i++)
+    {
+        x0 = ((i*x0)-1.);
+        printf("res2 = %f, iter %d\n", x0, i);
+    }
+    
     //printf("x0 = %f \n", x0);
-    aux(0,x0);
+    //aux(0,x0);
 }
 
 ///////////////////* POWER *////////////////////
@@ -88,7 +97,7 @@ double power2(int x, int n){
     return r;
 }
 
-double pow3(int x, int n, double *r){
+void pow3(int x, int n, double *r){
     if (n != 0)
     {
         *r *= x;
@@ -202,7 +211,7 @@ double power8(int x, int n){
     return pow8(x,n,1.);
 }
 
-double pow9(int x, int n, double *r){
+void pow9(int x, int n, double *r){
     if (n != 0)
     {
         if (n%2 != 0)
@@ -245,22 +254,116 @@ void suitePuissances(){
     //return power1((1+1./N),N);
 }
 
+////////////////////////////////////////////////
+
+int ackermann1(int m, int n){
+    if (m == 0)
+        return n+1;
+    else
+    {
+        int r = 1;
+        for (int i = 1; i <= n+1; i++)
+        {
+            r = ackermann1(m-1,r);
+        }
+        return r;
+    }
+}
+
+int ackermann2(int m, int n){
+    if (m == 0)
+        return n+1;
+    else{
+        if (n == 0)
+            return ackermann2(m-1,1);
+        else
+            return ackermann2(m-1,ackermann2(m,n-1));
+    }
+}
+
+void ackerValues(){
+    for (int i = 0; i <= 5; i++)
+    {
+        printf("acker n°1 A(%d,0) : %d \n", i, ackermann1(i,0));
+        printf("acker n°2 A(%d,0) : %d \n", i, ackermann2(i,0));
+    }
+}
+
+double suiteReelsIter(int n){
+    double x0 = 1;
+
+    for (int i = 1; i <= n; i++)
+    {
+        x0 = x0 + 2./x0;
+        //printf("res n° %d = %f\n", i, x0);
+    }
+    return x0;
+}
+
+double suiteReelsRec(int n){
+    /*double x0 = 1;
+    x0 = x0 + 2./x0;*/
+
+    //printf("res n° %d = %f\n", n, x0);
+
+    if (n == 0)
+        return 1;
+    else{
+        double res = suiteReelsRec(n-1);
+        return res + 2./res;
+    }
+}
+
+double aux_suiteReelsRecTerFonc(int n, double x0){
+    if (n != 0)
+    {
+        x0 = x0+2./x0;
+        return aux_suiteReelsRecTerFonc(n-1, x0);
+    }
+    return x0;
+}
+double suiteReelsRecTerFonc(int n){
+    return aux_suiteReelsRecTerFonc(n, 1.);
+}
+
+void aux_suiteReelsRecTerProc(int n, double *r){
+    if (n != 0)
+    {
+        *r = *r+2./(*r);
+        aux_suiteReelsRecTerProc(n-1, r);
+    }
+}
+double suiteReelsRecTerProc(int n){
+    double x0 = 1.;
+    aux_suiteReelsRecTerProc(n, &x0);
+    return x0;
+}
+
+////////////////////////////////////////////////
 
 int main(int argc, char const *argv[]){
-        printf("res = %f\n", sommeInf());
+        //printf("res = %f\n", sommeInf());
+        /**
+         * On peut voir que la formule tend vers 2.718282
+        */  
+
         //suite();
+        /**
+         * On utilisant un float on constate qu'à partir de la 39ème itération le programme n'affiche plus la suite des résultats
+         * On utilisant un double au lieu d'un float, on peut voir que le programme ne plante plus pour les 50 premières itérations, on peut voir que ça tend vers l'infini.
+         */
 
         //// Partie sur les fonctions Power
-        /*printf("res1 = %d\n", power1(2,6));
+        /*printf("res1 = %f\n", power1(2,6));
         printf("res2 = %f\n", power2(2,6));
-        printf("res3 = %d\n", power3(2,6));
-        printf("res4 = %d\n", power4(2,6));
-        printf("res5 = %d\n", power5(2,6));
-        printf("res6 = %d\n", power6(2,6));
-        printf("res7 = %d\n", power7(2,6));
-        printf("res8 = %d\n", power8(2,6));
-        printf("res9 = %d\n", power9(2,6));
-        printf("res10 = %d\n", power10(2,6));
+        printf("res3 = %f\n", power3(2,6));
+        printf("res4 = %f\n", power4(2,6));
+        printf("res5 = %f\n", power5(2,6));
+        printf("res6 = %f\n", power6(2,6));
+        printf("res7 = %f\n", power7(2,6));
+        printf("res8 = %f\n", power8(2,6));
+        printf("res9 = %f\n", power9(2,6));
+        printf("res10 = %f\n", power10(2,6));
 
         printf("res-1 = %f\n", power1(2,-6));
         printf("res-2 = %f\n", power2(2,-6));*/
@@ -292,8 +395,31 @@ int main(int argc, char const *argv[]){
         printf("res9 = %f\n", power9(10,12));        
         printf("res10 = %f\n", power10(10,12));*/
 
-        suitePuissances();
-        //pas de probleme ici (i7-6700k)
-    
+        /////////////////////////////////////////////
+
+        //suitePuissances();
+        /**
+         * la suite semble tendre vers 2.718282 comme pour pour "e"
+         * On peut apercevoir un probleme a partir 10^10, la calcul commence a descendre pour finalement bloquer a 1.0
+         * */ 
+
+        /*printf("acker1 = %d\n", ackermann1(1,0));
+        printf("acker2 = %d\n", ackermann2(1,0));
+
+        printf("acker1 = %d\n", ackermann1(2,1));   
+        printf("acker2 = %d\n", ackermann2(0,4));*/
+
+        //ackerValues();
+
+        /**
+         * Pour le calcul de (6,0), le programme tourne sans donner de résultat.
+         * La version récursive ne fonctionne pas et renvoie le code d'erreur : "3221225725", car on atteint la limite de la récusrion.
+         */
+
+        printf("ouais %f\n",suiteReelsIter(100));
+        printf("ouais2 %f\n",suiteReelsRec(100));
+        printf("ouais3 %f\n",suiteReelsRecTerFonc(100));
+        printf("ouais4 %f\n",suiteReelsRecTerProc(100));
+        
     return 0;
 }
