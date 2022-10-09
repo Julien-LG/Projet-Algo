@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define ISNOT !=
 #define NOT !
@@ -34,7 +35,6 @@ double aux(int i, double x){
         aux(i++,(i*x)-1);
     }
 }
-
 double suite(){
     double x0 = sommeInf() - 1;
     //printf("x0 = %f \n", x0);
@@ -43,7 +43,7 @@ double suite(){
 
 ///////////////////* POWER *////////////////////
 
-/*int power1(int x, int n){
+/*double power1(int x, int n){
     if (n == 0)
     {
         return 1;
@@ -54,20 +54,29 @@ double suite(){
     }
 }*/
 
-int power1(int x, int n){
-    int n2 = abs(n);
-    if (n2 == 0)
+double pow1(int x, int n){
+    if (n == 0)
     {
-        return 1;
+        return 1.;
     }
     else
     {
-        return power1(x,n-1) * x;
+        return (pow1(x,n-1) * x);
+    }
+}
+double power1(int x, int n){
+    if (n < 0)
+    {
+        return 1./pow1(x,abs(n));
+    }
+    else
+    {
+        return pow1(x,n);
     }
 }
 
 double power2(int x, int n){
-    int r = 1;
+    double r = 1.;
     int n2 = abs(n);
     while (n2 > 0)
     {
@@ -79,20 +88,30 @@ double power2(int x, int n){
     return r;
 }
 
-int pow3(int x, int n, int *r){
+double pow3(int x, int n, double *r){
     if (n != 0)
     {
         *r *= x;
         pow3(x, n-1, r);
     }
 }
-int power3(int x, int n){
-    int r = 1;
+double power3(int x, int n){
+    double r = 1;
     pow3(x,n,&r);
     return r;
 }
 
-int pow4(int x, int n, int r){
+double pow4(int x, int n, double r){
+    if (n == 0)
+        return r;
+    else
+        return pow4(x, n-1, r*x);
+}
+double power4(int x, int n){
+    return pow4(x,n,1.);
+}
+
+/*int pow4(int x, int n, int r){
     if (n == 0)
     {
         return r;
@@ -104,10 +123,10 @@ int pow4(int x, int n, int r){
 }
 int power4(int x, int n){
     return pow4(x,n,1);
-}
+}*/
 
 
-int power5(int x, int n){
+double power5(int x, int n){
     if (n == 0)
     {
         return 1;
@@ -125,14 +144,14 @@ int power5(int x, int n){
     }
 }
 
-int power6(int x, int n){
+double power6(int x, int n){
     if (n == 0)
     {
-        return 1;
+        return 1.;
     }
     else
     {
-        int y = power6(x, n / 2);
+        double y = power6(x, n / 2);
         if (n%2 == 0)
         {
             return y * y;
@@ -144,7 +163,7 @@ int power6(int x, int n){
     }
 }
 
-int power7(int x, int n){
+double power7(int x, int n){
     if (n == 0)
     {
         return 1;
@@ -162,7 +181,7 @@ int power7(int x, int n){
     }
 }
 
-int pow8(int x, int n, int r){
+double pow8(int x, int n, double r){
     if (n == 0)
     {
         return r;
@@ -179,11 +198,11 @@ int pow8(int x, int n, int r){
         }
     }
 }
-int power8(int x, int n){
-    return pow8(x,n,1);
+double power8(int x, int n){
+    return pow8(x,n,1.);
 }
 
-int pow9(int x, int n, int *r){
+double pow9(int x, int n, double *r){
     if (n != 0)
     {
         if (n%2 != 0)
@@ -193,14 +212,14 @@ int pow9(int x, int n, int *r){
         pow9(x*x,n/2,r);
     }
 }
-int power9(int x, int n){
-    int r = 1;
+double power9(int x, int n){
+    double r = 1.;
     pow9(x,n,&r);
     return r;
 }
 
-int power10(int x, int n){
-    int r = 1;
+double power10(double x, int n){
+    double r = 1.;
     while (n != 0)
     {
         if (n % 2 != 0)
@@ -216,11 +235,23 @@ int power10(int x, int n){
 
 ////////////////////////////////////////////////
 
+void suitePuissances(){
+    double N = 0.;
+    for (int i = 0; i < 25; i++)
+    {
+        N = power1(10,i);
+        printf("10^%d = %f\n", i, power10((1+(1./N)),N));
+    }
+    //return power1((1+1./N),N);
+}
+
 
 int main(int argc, char const *argv[]){
-        //printf("res = %f\n", sommeInf());
+        printf("res = %f\n", sommeInf());
         //suite();
-        printf("res1 = %d\n", power1(2,6));
+
+        //// Partie sur les fonctions Power
+        /*printf("res1 = %d\n", power1(2,6));
         printf("res2 = %f\n", power2(2,6));
         printf("res3 = %d\n", power3(2,6));
         printf("res4 = %d\n", power4(2,6));
@@ -231,8 +262,38 @@ int main(int argc, char const *argv[]){
         printf("res9 = %d\n", power9(2,6));
         printf("res10 = %d\n", power10(2,6));
 
-        printf("res-2 = %f\n", power2(2,-6));
-        //printf("res2 = %d\n", power2(2,6));
+        printf("res-1 = %f\n", power1(2,-6));
+        printf("res-2 = %f\n", power2(2,-6));*/
+
+        //// Partie pour la suite de puissance de 10
+        //suitePuissances();
+        
+        /*printf("res1 = %f\n", power1(10,9));
+        printf("res2 = %f\n", power2(10,9));
+        printf("res3 = %f\n", power3(10,9));
+        printf("res4 = %f\n", power4(10,9));
+        printf("res5 = %f\n", power5(10,9));
+        printf("res6 = %f\n", power6(10,9));
+        printf("res7 = %f\n", power7(10,9));
+        printf("res8 = %f\n", power8(10,9));
+        printf("res9 = %f\n", power9(10,9));        
+        printf("res10 = %f\n", power10(10,9));
+
+        printf("\n \n");
+
+        printf("res1 = %f\n", power1(10,12));
+        printf("res2 = %f\n", power2(10,12));
+        printf("res3 = %f\n", power3(10,12));
+        printf("res4 = %f\n", power4(10,12));
+        printf("res5 = %f\n", power5(10,12));
+        printf("res6 = %f\n", power6(10,12));
+        printf("res7 = %f\n", power7(10,12));
+        printf("res8 = %f\n", power8(10,12));
+        printf("res9 = %f\n", power9(10,12));        
+        printf("res10 = %f\n", power10(10,12));*/
+
+        suitePuissances();
+        //pas de probleme ici (i7-6700k)
     
     return 0;
 }
