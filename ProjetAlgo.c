@@ -12,6 +12,10 @@ typedef enum { false, true } bool;
 /*#define FALSE 0
 #define TRUE !(FALSE)*/
 
+////////////////////////////////////////////////
+//////////////////// PARTIE 1 //////////////////
+////////////////////////////////////////////////
+
 int fact(int n){
      return n > 1?(n * fact(n-1)):1;
 }
@@ -339,7 +343,6 @@ double suiteReelsRecTerProc(int n){
     return x0;
 }
 
-////////////////////////////////////////////////
 
 int main(int argc, char const *argv[]){
         //printf("res = %f\n", sommeInf());
@@ -416,10 +419,11 @@ int main(int argc, char const *argv[]){
          * La version récursive ne fonctionne pas et renvoie le code d'erreur : "3221225725", car on atteint la limite de la récusrion.
          */
 
-        printf("ouais %f\n",suiteReelsIter(100));
+        /*printf("ouais %f\n",suiteReelsIter(100));
         printf("ouais2 %f\n",suiteReelsRec(100));
         printf("ouais3 %f\n",suiteReelsRecTerFonc(100));
-        printf("ouais4 %f\n",suiteReelsRecTerProc(100));
+        printf("ouais4 %f\n",suiteReelsRecTerProc(100));*/
         
+
     return 0;
 }
