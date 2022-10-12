@@ -230,35 +230,36 @@ void VideListe(Liste *L)
 /*                                               */
 /*************************************************/
 
-/*bool ZeroEnPositionUnOuDeuxOuTrois(Liste l){
-    if ( l != NULL)
-    {
-        for (int i = 0; i <= 3 && (l->suivant) != NULL; i++)
-        {
-            printf("bjr");
-            //if(*L == 0)
-            if(l->nombre == 0) 
-                return TRUE;
-            l = l->suivant;
-        }
+bool aux_ZeroEnPositionUnOuDeuxOuTrois(Liste *L, int acc){
+    if ( (*L) != NULL && acc < 3){
+        printf("acc = %d | L = %d \n", acc, premier(*L));
+        if(premier(*L) == 0)
+            return TRUE;
+        aux_ZeroEnPositionUnOuDeuxOuTrois(& ( (**L).suivant ), acc+1);
+    }
+    else
         return FALSE;
-     }
-}*/
-
-/*bool ZeroEnPositionUnOuDeuxOuTrois(Liste *L){
+}
+bool ZeroEnPositionUnOuDeuxOuTrois(Liste *L){
     if ( (*L) != NULL)
     {
-        for (int i = 0; i <= 3 && ((**L).suivant) != NULL; i++)
+        Liste temp = *L;
+        return aux_ZeroEnPositionUnOuDeuxOuTrois(&temp, 0);
+    }
+    return FALSE;;
+}
+
+//bool Pluscourte(Liste *L1, Liste *L2){
+bool Pluscourte(Liste l1, Liste l2){
+    if(l2 != NULL){
+        if (l1 == NULL && l2->suivant != NULL)
         {
-            printf("bjr");
-            //if(*L == 0)
-            if(L->nombre == 0) 
-                return TRUE;
-            L = & ( (**L).suivant ) ;
+            return TRUE;
         }
-        return FALSE;
-     }
-}*/
+        return Pluscourte(l1->suivant, l2->suivant);
+    }
+    return FALSE;
+}
 
 /*************************************************/
 /*                                               */
@@ -306,17 +307,34 @@ int main(int argc, char** argv)
 
     VideListe(&l);*/
 
-    Liste l;
-    initVide (&l) ;
-    empile(3, &l) ;
+    Liste l1;
+    initVide (&l1) ;
+    /*empile(3, &l) ;
     empile(4, &l) ;
     empile(0, &l) ;
     empile(2, &l) ;
-    empile(8, &l) ;
+    empile(8, &l) ;*/
+    empile(2, &l1) ;
+    empile(0, &l1) ;
+    empile(2, &l1) ;
+    empile(2, &l1) ;
+    empile(1, &l1) ;
 
-    printf("reponse = %d",ZeroEnPositionUnOuDeuxOuTrois(&l));
+    Liste l2;
+    initVide (&l2) ;
+    empile(4, &l2) ;
+    empile(4, &l2) ;
+    empile(4, &l2) ;
+    empile(0, &l2) ;
+    empile(2, &l2) ;
+    empile(8, &l2) ;
 
-    VideListe(&l);
+    //printf("reponse = %d",ZeroEnPositionUnOuDeuxOuTrois(&l1));
+
+    printf("reponse = %d",Pluscourte(l1,l2));
+
+    VideListe(&l1);
+    VideListe(&l2);
     return 0;
 }
 
