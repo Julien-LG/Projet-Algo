@@ -249,16 +249,12 @@ bool ZeroEnPositionUnOuDeuxOuTrois(Liste *L){
     return FALSE;;
 }
 
-//bool Pluscourte(Liste *L1, Liste *L2){
 bool Pluscourte(Liste l1, Liste l2){
-    if(l2 != NULL){
-        if (l1 == NULL && l2->suivant != NULL)
-        {
-            return TRUE;
-        }
-        return Pluscourte(l1->suivant, l2->suivant);
-    }
-    return FALSE;
+    if (l2 == NULL)
+        return FALSE;
+    if (l1 == NULL)
+        return  TRUE;
+    return Pluscourte(l1->suivant, l2->suivant);
 }
 
 /*************************************************/
@@ -331,7 +327,7 @@ int main(int argc, char** argv)
 
     //printf("reponse = %d",ZeroEnPositionUnOuDeuxOuTrois(&l1));
 
-    printf("reponse = %d",Pluscourte(l1,l2));
+    printf("reponse = %d \n",Pluscourte(l1,l2));
 
     VideListe(&l1);
     VideListe(&l2);
