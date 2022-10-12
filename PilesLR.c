@@ -257,6 +257,182 @@ bool Pluscourte(Liste l1, Liste l2){
     return Pluscourte(l1->suivant, l2->suivant);
 }
 
+/*
+bool aux_ZeroEnPositionUnOuDeuxOuTrois(Liste *L, int acc){
+    if ( (*L) != NULL && acc < 3){
+        printf("acc = %d | L = %d \n", acc, premier(*L));
+        if(premier(*L) == 0)
+            return TRUE;
+        aux_ZeroEnPositionUnOuDeuxOuTrois(& ( (**L).suivant ), acc+1);
+    }
+    else
+        return FALSE;
+}
+bool ZeroEnPositionUnOuDeuxOuTrois(Liste *L){
+    if ( (*L) != NULL)
+    {
+        Liste temp = *L;
+        return aux_ZeroEnPositionUnOuDeuxOuTrois(&temp, 0);
+    }
+    return FALSE;;
+}
+*/
+
+/*int aux_NombreDe0AvantPositionK(Liste *L, int K, int cpt){
+    printf("cpt = %d | L = %d \n", cpt, premier(*L));
+    if ((*L) == NULL)
+        return cpt;
+    /*if (K == 0 && premier(*L) == 0)
+        return aux_NombreDe0AvantPositionK(&((**L).suivant), 0, cpt+1);
+    else
+        return aux_NombreDe0AvantPositionK(&((**L).suivant), K-1, cpt);*/
+    /*if (K == 0)
+    {
+        return aux_NombreDe0AvantPositionK(&((**L).suivant), 0, cpt+1);
+    }
+        
+    
+}
+int NombreDe0AvantPositionK(Liste *L, int K){
+    if ((*L) == NULL)
+        return 0;
+    //Liste temp = *L;
+    return aux_NombreDe0AvantPositionK(L, K, 0);
+}*/
+
+/*int NombreDe0AvantPositionKRec(Liste l, int k){   
+    /*if (l != NULL){
+        if (k == 0 && l->nombre == 0)
+            return 1 + NombreDe0AvantPositionKRec(l->suivant, k);
+        else
+            return NombreDe0AvantPositionKRec(l->suivant, k-1);
+    }
+    return 0;*/
+
+    /*if (l == NULL)
+        return 0;
+    if (k == 0 && l->nombre == 0)
+            return 1 + NombreDe0AvantPositionKRec(l->suivant, k);
+        else
+            return NombreDe0AvantPositionKRec(l->suivant, k-1);
+}
+
+int NombreDe0AvantPositionKIter(Liste l, int k){
+    int cpt = 0;
+
+    while (l != NULL)
+    {
+        if (k == 0 && l->nombre == 0)
+            cpt++;
+        else
+            k--;
+        l = l->suivant;
+    }
+    return cpt;
+}*/
+
+int NombreDe0AvantPositionKRec(Liste l, int k){   
+    if (l != NULL && k > 0){
+        if (l->nombre == 0)
+            return 1 + NombreDe0AvantPositionKRec(l->suivant, k-1);
+        return NombreDe0AvantPositionKRec(l->suivant, k-1);
+    }
+    return 0;
+}
+
+int NombreDe0AvantPositionKIter(Liste l, int k){
+    int cpt = 0;
+
+    while (l != NULL && k > 0)
+    {
+        if (l->nombre == 0)
+            cpt++;
+        k--;
+        l = l->suivant;
+    }
+    return cpt;
+}
+/*double aux_suiteReelsRecTerFonc(int n, double x0){
+    if (n != 0)
+    {
+        x0 = x0+2./x0;
+        return aux_suiteReelsRecTerFonc(n-1, x0);
+    }
+    return x0;
+}
+double suiteReelsRecTerFonc(int n){
+    return aux_suiteReelsRecTerFonc(n, 1.);
+}
+*/
+
+int aux_NombreDe0AvantPositionKSousRecTer(Liste l, int k, int cpt){
+    if (l != NULL && k > 0){
+        if (l->nombre == 0)
+            return aux_NombreDe0AvantPositionKSousRecTer(l->suivant, k-1, cpt+1);
+        return aux_NombreDe0AvantPositionKSousRecTer(l->suivant, k-1, cpt);
+    }
+    return cpt;
+}
+int NombreDe0AvantPositionKSousRecTer(Liste l, int k){
+    if (l == NULL)
+        return 0;
+    return aux_NombreDe0AvantPositionKSousRecTer(l, k, 0);
+}
+/*void aux_suiteReelsRecTerProc(int n, double *r){
+    if (n != 0)
+    {
+        *r = *r+2./(*r);
+        aux_suiteReelsRecTerProc(n-1, r);
+    }
+}
+double suiteReelsRecTerProc(int n){
+    double x0 = 1.;
+    aux_suiteReelsRecTerProc(n, &x0);
+    return x0;
+}
+*/
+void aux_NombreDe0AvantPositionKSousProcTer(Liste l, int k, int *cpt){
+    if (l != NULL && k > 0){
+        if (l->nombre == 0){
+            *cpt = *cpt+1;
+        }
+        aux_NombreDe0AvantPositionKSousProcTer(l->suivant, k-1, cpt);
+    }
+} 
+int NombreDe0AvantPositionKSousProcTer(Liste l, int k){   
+    if (l == NULL)
+        return 0;
+    int cpt = 0;
+    aux_NombreDe0AvantPositionKSousProcTer(l, k, &cpt);
+    return cpt;
+}
+
+
+/*int NombreDe0ApresRetroPositionKIter(Liste l, int k){   
+    if (l != NULL){
+        if (l->nombre == 0 && k <= 1)
+            return 1 + NombreDe0AvantPositionKRec(l->suivant, k-1);
+        return NombreDe0AvantPositionKRec(l->suivant, k-1);
+    }
+    return 0;
+}*/
+
+int NombreDe0ApresRetroPositionKIter(Liste l, int k){
+    int cpt = 0;
+
+    while (l != NULL)
+    {
+        //printf("k = % d\n", k);
+        if (k == 1 && l->nombre == 0)
+            cpt++;
+        else
+            k--;
+        //printf("cpt = % d\n", cpt);
+        l = l->suivant;
+    }
+    return cpt;
+}
+
 /*************************************************/
 /*                                               */
 /*           Main                                */
@@ -325,12 +501,60 @@ int main(int argc, char** argv)
     empile(2, &l2) ;
     empile(8, &l2) ;
 
+    Liste l3;
+    initVide (&l3) ;
+    empile(0, &l3) ;
+    empile(1, &l3) ;
+    empile(0, &l3) ;
+    empile(0, &l3) ;
+    empile(0, &l3) ;
+    empile(9, &l3) ;
+    empile(6, &l3) ;
+    empile(5, &l3) ;
+    empile(0, &l3) ;
+    empile(2, &l3) ;
+
+    Liste l4;
+    initVide (&l4) ;
+    empile(2, &l4) ;
+    empile(0, &l4) ;
+    empile(5, &l4) ;
+    empile(6, &l4) ;
+    empile(9, &l4) ;
+    empile(0, &l4) ;
+    empile(0, &l4) ;
+    empile(0, &l4) ;
+    empile(1, &l4) ;
+    empile(0, &l4) ;
+    /*empile(0, &l4) ;
+    empile(0, &l4) ;
+    empile(0, &l4) ;
+    empile(0, &l4) ;
+    empile(0, &l4) ;
+    empile(0, &l4) ;
+    empile(0, &l4) ;
+    empile(0, &l4) ;
+    empile(0, &l4) ;*/
     //printf("reponse = %d",ZeroEnPositionUnOuDeuxOuTrois(&l1));
 
-    printf("reponse = %d \n",Pluscourte(l1,l2));
+    //printf("reponse = %d \n",Pluscourte(l1,l2));
+
+    //printf("nb de 0 = %d \n",NombreDe0AvantPositionK(&l3,6));
+    /*printf("nb de 0 avant k = %d \n",NombreDe0AvantPositionKRec(l3,6));
+    printf("nb de 0 avant k = %d \n",NombreDe0AvantPositionKIter(l3,6));
+    printf("nb de 0 avant k = %d \n",NombreDe0AvantPositionKSousRecTer(l3,6));
+    printf("nb de 0 avant k = %d \n",NombreDe0AvantPositionKSousProcTer(l3,6));*/
+
+
+    //a reparer
+    printf("nb de 0 apres k = %d \n",NombreDe0ApresRetroPositionKIter(l4,6));
+    ////////////////////////////////////////////////////////////////
+
 
     VideListe(&l1);
     VideListe(&l2);
+    VideListe(&l3);
+    VideListe(&l4);
     return 0;
 }
 
