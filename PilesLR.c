@@ -456,30 +456,54 @@ int NombreDe0AvantPositionKSousProcTer(Liste l, int k){
     }
 }*/
 
-
-void aux_NombreDe0ApresRetroPositionKRec(Liste l, int *k, int *cpt){   
-    printf(" l = %d \n", l->nombre);
-    if (l != NULL){
-
-        if (*k != 0 && l->nombre == 0){
-            *cpt = *cpt + 1;
-        }
-        
+/*save en version procédurale*/
+/*void aux_NombreDe0ApresRetroPositionKRec(Liste l, int *k, int *cpt){   
+    //printf(" l = %d \n", l->nombre);
+    if (l != NULL){    
+        if (*k != 0 && l->nombre == 0)
+            *cpt = *cpt + 1;      
         aux_NombreDe0ApresRetroPositionKRec(l->suivant, k, cpt);
         *k = *k - 1;
         printf("l = %d |cpt = %d |k = %d \n", l->nombre, *cpt, *k);
     }
+}*/
+void aux_NombreDe0ApresRetroPositionKRec(Liste l, int *k, int *cpt){   
+    if (l != NULL){
+        aux_NombreDe0ApresRetroPositionKRec(l->suivant, k, cpt);
+        if (*k != 0){
+            if (l->nombre == 0)
+                *cpt = *cpt + 1;
+            printf("l = %d |cpt = %d |k = %d \n", l->nombre, *cpt, *k);
+            *k = *k - 1;
+        } 
+    }
 }
-
 int NombreDe0ApresRetroPositionKRec(Liste l, int k){
     if(l == NULL)
         return 0;
     int cpt = 0;
-    //printf("ici \n");
     aux_NombreDe0ApresRetroPositionKRec(l, &k, &cpt);
     return cpt;
 }
 
+/*int aux_NombreDe0ApresRetroPositionKRec(Liste l, int *k, int cpt){   
+    //printf(" l = %d \n", l->nombre);
+    if (l != NULL && *k != 0){    
+        if ( l->nombre == 0)
+            cpt = cpt + 1;      
+        aux_NombreDe0ApresRetroPositionKRec(l->suivant, k, cpt);
+        *k = *k - 1;
+        printf("l = %d |cpt = %d |k = %d \n", l->nombre, cpt, *k);
+    }
+    return cpt;
+}
+int NombreDe0ApresRetroPositionKRec(Liste l, int k){
+    if(l == NULL)
+        return 0;
+    int temp = k;
+    
+    return aux_NombreDe0ApresRetroPositionKRec(l, &k, 0);
+}*/
 
 /*************************************************/
 /*                                               */
@@ -577,7 +601,8 @@ int main(int argc, char** argv)
     /*empile(3, &l4) ;
     empile(0, &l4) ;
     empile(0, &l4) ;
-    empile(5, &l4) ;*/
+    empile(5, &l4) ;
+    empile(0, &l4) ;*/
 
     /*empile(0, &l4) ;
     empile(0, &l4) ;
