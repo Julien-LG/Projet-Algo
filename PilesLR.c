@@ -417,7 +417,7 @@ int NombreDe0AvantPositionKSousProcTer(Liste l, int k){
     return 0;
 }*/
 
-int NombreDe0ApresRetroPositionKIter(Liste l, int k){
+/*int NombreDe0ApresRetroPositionKIter(Liste l, int k){
     int cpt = 0;
 
     while (l != NULL)
@@ -431,7 +431,55 @@ int NombreDe0ApresRetroPositionKIter(Liste l, int k){
         l = l->suivant;
     }
     return cpt;
+}*/
+
+/*int NombreDe0ApresRetroPositionKRec(Liste l, int k){   
+    if (l != NULL){
+        printf("l = %d |cpt = %d |k = %d \n", l->nombre, cpt, k);
+        if (l->nombre == 0 && k == 0){
+            return 1 + NombreDe0ApresRetroPositionKRec(l->suivant, k);
+        }
+            
+        return NombreDe0ApresRetroPositionKRec(l->suivant, k-1);
+    }
+    return 0;
+}*/
+
+/*void NombreDe0ApresRetroPositionKRec(Liste l, int *k){   
+    if (l != NULL && *k != 0){
+        if (l->nombre == 0 && *k > 0){
+            *k = *k + 1;
+        }
+            
+        NombreDe0ApresRetroPositionKRec(l->suivant, k-1);
+        printf("l = %d | k = %d \n", l->nombre, k);
+    }
+}*/
+
+
+void aux_NombreDe0ApresRetroPositionKRec(Liste l, int *k, int *cpt){   
+    printf(" l = %d \n", l->nombre);
+    if (l != NULL){
+
+        if (*k != 0 && l->nombre == 0){
+            *cpt = *cpt + 1;
+        }
+        
+        aux_NombreDe0ApresRetroPositionKRec(l->suivant, k, cpt);
+        *k = *k - 1;
+        printf("l = %d |cpt = %d |k = %d \n", l->nombre, *cpt, *k);
+    }
 }
+
+int NombreDe0ApresRetroPositionKRec(Liste l, int k){
+    if(l == NULL)
+        return 0;
+    int cpt = 0;
+    //printf("ici \n");
+    aux_NombreDe0ApresRetroPositionKRec(l, &k, &cpt);
+    return cpt;
+}
+
 
 /*************************************************/
 /*                                               */
@@ -526,6 +574,11 @@ int main(int argc, char** argv)
     empile(0, &l4) ;
     empile(1, &l4) ;
     empile(0, &l4) ;
+    /*empile(3, &l4) ;
+    empile(0, &l4) ;
+    empile(0, &l4) ;
+    empile(5, &l4) ;*/
+
     /*empile(0, &l4) ;
     empile(0, &l4) ;
     empile(0, &l4) ;
@@ -547,7 +600,13 @@ int main(int argc, char** argv)
 
 
     //a reparer
-    printf("nb de 0 apres k = %d \n",NombreDe0ApresRetroPositionKIter(l4,6));
+    //printf("nb de 0 apres k = %d \n",NombreDe0ApresRetroPositionKIter(l4,6));
+    
+    printf("nb de 0 apres k = %d \n",NombreDe0ApresRetroPositionKRec(l4,6));
+    /*
+    int cpt = 0 ;
+    NombreDe0ApresRetroPositionKRec(l4,6,&cpt);
+    printf("nb de 0 apres k = %d \n",cpt);*/
     ////////////////////////////////////////////////////////////////
 
 
