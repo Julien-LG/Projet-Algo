@@ -486,24 +486,89 @@ int NombreDe0ApresRetroPositionKRec(Liste l, int k){
     return cpt;
 }
 
-/*int aux_NombreDe0ApresRetroPositionKRec(Liste l, int *k, int cpt){   
-    //printf(" l = %d \n", l->nombre);
-    if (l != NULL && *k != 0){    
-        if ( l->nombre == 0)
-            cpt = cpt + 1;      
-        aux_NombreDe0ApresRetroPositionKRec(l->suivant, k, cpt);
-        *k = *k - 1;
-        printf("l = %d |cpt = %d |k = %d \n", l->nombre, cpt, *k);
+Liste FctBegayeRec(Liste l){
+    if (l!= NULL){
+        printf(" l = %d \n", l->nombre);
+        if (l->nombre > 0)
+            return ajoute(l->nombre, ajoute(l->nombre, FctBegayeRec(l->suivant)));
+        return FctBegayeRec(l->suivant);
     }
-    return cpt;
+    Liste l2;
+    initVide (&l2) ;
+    return l2;
 }
-int NombreDe0ApresRetroPositionKRec(Liste l, int k){
-    if(l == NULL)
-        return 0;
-    int temp = k;
-    
-    return aux_NombreDe0ApresRetroPositionKRec(l, &k, 0);
-}*/
+
+void aux_FctBegayeRecTer(Liste l, Liste *l2){
+    if (l!= NULL){
+        //printf(" l = %d \n", l->nombre);
+        if (l->nombre > 0)
+            *l2 = ajoute(l->nombre, ajoute(l->nombre, *l2));
+        aux_FctBegayeRecTer(l->suivant, l2);
+    }
+}
+Liste FctBegayeRecTer(Liste l){
+    Liste l2;
+    initVide (&l2) ;
+    if (l != NULL)
+        aux_FctBegayeRecTer(l, &l2);
+    return l2;
+}
+
+Liste FctBegayeRecIter(Liste l){
+    /*if (l!= NULL){
+        printf(" l = %d \n", l->nombre);
+        if (l->nombre > 0)
+            return ajoute(l->nombre, ajoute(l->nombre, FctBegayeRecProc(l->suivant)));
+        return FctBegayeRecProc(l->suivant);
+    }
+    Liste l2;
+    initVide (&l2) ;
+    return l2;*/
+    Liste l2;
+    initVide (&l2) ;
+    //l2 = ajoute(158, l2);
+    while (l != NULL)
+    {
+        //printf(" l = %d \n", l->nombre);
+        if (l->nombre > 0)
+            l2 = ajoute(l->nombre, ajoute(l->nombre, l2));
+        /*if (l->nombre > 0){
+            l2 = ajoute(l->nombre, l2);
+            l2 = ajoute(l->nombre, l2);
+        }*/
+        l = l->suivant;
+    }
+    //affiche_rec(l2);
+    return l2;
+}
+
+/*Liste FctBegayeRecIter(Liste l){
+    Liste l2;
+    initVide (&l2) ;
+    l2 = ajoute(158, l2);
+    return l2;
+}
+*/
+
+void ProcBegaye(Liste *l){
+    if (l!= NULL){
+        if (l->nombre > 0)
+            *l = 
+    }
+}
+/*
+Liste FctBegayeRec(Liste l){
+    if (l!= NULL){
+        printf(" l = %d \n", l->nombre);
+        if (l->nombre > 0)
+            return ajoute(l->nombre, ajoute(l->nombre, FctBegayeRec(l->suivant)));
+        return FctBegayeRec(l->suivant);
+    }
+    Liste l2;
+    initVide (&l2) ;
+    return l2;
+}
+*/
 
 /*************************************************/
 /*                                               */
@@ -613,6 +678,17 @@ int main(int argc, char** argv)
     empile(0, &l4) ;
     empile(0, &l4) ;
     empile(0, &l4) ;*/
+
+    Liste l5;
+    initVide (&l5) ;
+    empile(8, &l5) ;
+    empile(8, &l5) ;
+    empile(-2, &l5) ;
+    empile(6, &l5) ;
+    empile(0, &l5) ;
+    empile(1, &l5) ;
+    empile(2, &l5) ;
+
     //printf("reponse = %d",ZeroEnPositionUnOuDeuxOuTrois(&l1));
 
     //printf("reponse = %d \n",Pluscourte(l1,l2));
@@ -622,23 +698,22 @@ int main(int argc, char** argv)
     printf("nb de 0 avant k = %d \n",NombreDe0AvantPositionKIter(l3,6));
     printf("nb de 0 avant k = %d \n",NombreDe0AvantPositionKSousRecTer(l3,6));
     printf("nb de 0 avant k = %d \n",NombreDe0AvantPositionKSousProcTer(l3,6));*/
-
-
-    //a reparer
-    //printf("nb de 0 apres k = %d \n",NombreDe0ApresRetroPositionKIter(l4,6));
     
-    printf("nb de 0 apres k = %d \n",NombreDe0ApresRetroPositionKRec(l4,6));
-    /*
-    int cpt = 0 ;
-    NombreDe0ApresRetroPositionKRec(l4,6,&cpt);
-    printf("nb de 0 apres k = %d \n",cpt);*/
-    ////////////////////////////////////////////////////////////////
+    //printf("nb de 0 apres k = %d \n",NombreDe0ApresRetroPositionKRec(l4,6));
 
+
+    affiche_rec(FctBegayeRec(l5));
+    affiche_rec(FctBegayeRecTer(l5));    
+    affiche_rec(FctBegayeRecIter(l5));
+    
+
+    ////////////////////////////////////////////////////////////////
 
     VideListe(&l1);
     VideListe(&l2);
     VideListe(&l3);
     VideListe(&l4);
+    VideListe(&l5);
     return 0;
 }
 
