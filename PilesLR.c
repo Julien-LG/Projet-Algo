@@ -501,9 +501,9 @@ Liste FctBegayeRec(Liste l){
 void aux_FctBegayeRecTer(Liste l, Liste *l2){
     if (l!= NULL){
         //printf(" l = %d \n", l->nombre);
+        aux_FctBegayeRecTer(l->suivant, l2);
         if (l->nombre > 0)
             *l2 = ajoute(l->nombre, ajoute(l->nombre, *l2));
-        aux_FctBegayeRecTer(l->suivant, l2);
     }
 }
 Liste FctBegayeRecTer(Liste l){
@@ -514,8 +514,7 @@ Liste FctBegayeRecTer(Liste l){
     return l2;
 }
 
-Liste FctBegayeRecIter(Liste l){
-    /*if (l!= NULL){
+/*if (l!= NULL){
         printf(" l = %d \n", l->nombre);
         if (l->nombre > 0)
             return ajoute(l->nombre, ajoute(l->nombre, FctBegayeRecProc(l->suivant)));
@@ -524,6 +523,8 @@ Liste FctBegayeRecIter(Liste l){
     Liste l2;
     initVide (&l2) ;
     return l2;*/
+/*Liste FctBegayeRecIter(Liste l){
+    
     Liste l2;
     initVide (&l2) ;
     //l2 = ajoute(158, l2);
@@ -536,26 +537,71 @@ Liste FctBegayeRecIter(Liste l){
             l2 = ajoute(l->nombre, l2);
             l2 = ajoute(l->nombre, l2);
         }*/
-        l = l->suivant;
+        /*l = l->suivant;
     }
     //affiche_rec(l2);
     return l2;
-}
+}*/
 
-/*Liste FctBegayeRecIter(Liste l){
+Liste FctBegayeRecIter(Liste l){
+    Liste temp;
+    initVide (&temp);
     Liste l2;
-    initVide (&l2) ;
-    l2 = ajoute(158, l2);
+    initVide (&l2);
+    //l2 = ajoute(158, l2);
+    /*while (l != NULL)
+    {
+        //printf(" l = %d \n", l->nombre);
+        if (l->nombre > 0){
+            /*l2->suivant = l->nombre;
+            l2->suivant->suivant = NULL;*/
+            /*l2 = ajoute(l->nombre, ajoute(l->nombre, l2));
+        }
+            //l2 = ajoute(l->nombre, ajoute(l->nombre, l2));
+        l = l->suivant;
+    }*/
+
+    //version facile
+    while (l != NULL)
+    {
+        //printf(" l = %d \n", l->nombre);
+        if (l->nombre > 0){
+
+            temp = ajoute(l->nombre, temp);
+        }
+        l = l->suivant;
+    }
+    
+    while(temp != NULL){
+        l2 = ajoute(temp->nombre, ajoute(temp->nombre, l2));
+        //l2 = ajoute(temp->nombre, l2);
+        temp = temp->suivant;
+    }
     return l2;
 }
-*/
 
-void ProcBegaye(Liste *l){
+////////////////////////////////////////////////////////////////////////////////////////////////
+/*void ProcBegaye(Liste *l){
     if (l!= NULL){
         if (l->nombre > 0)
             *l = 
     }
+}*/
+
+void ProcBegaye(Liste *L){
+    Liste temp;
+    if (!estVide(L)){
+        if (premier(L) > 0){
+            *temp = *(L.suivant);
+            *(L.suivant) = premier(L);
+            *(L.suivant).suivant = temp;
+        }
+            
+            /*l2->suivant = l->nombre;
+            l2->suivant->suivant = NULL;*/
+    }
 }
+
 /*
 Liste FctBegayeRec(Liste l){
     if (l!= NULL){
