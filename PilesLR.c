@@ -636,6 +636,11 @@ void ProcBegaye(Liste *L){
 //     return tmp ;
 // }
 
+// void empileListe(Liste l, ListeListe *LL)
+// {
+//       *LL = ajouteListe(l,*LL) ; 
+// }
+
 // ListeListe suiteListe(ListeListe ll)
 // {
 //     return ll->suivant ;
@@ -785,11 +790,20 @@ ListeBis predBis(ListeBis l)
 ListeBis ajouteBis(int x, ListeBis l)
 {
     ListeBis tmp = (ListeBis) malloc(sizeof(BlocBis)) ;
-    tmp->nombre = x ;
-    tmp->suivant = l ;
-    tmp->pred = NULL ;
-    tmp->suivant->pred = tmp ;
+    tmp->nombre = x;
+    tmp->suivant = l;
+    tmp->pred = NULL;
+    //printf("%d ", tmp->nombre);
+    //printf("%d ", (tmp->suivant)->pred);
+    /*ListeBis tmp2 = (tmp->suivant);
+    printf("%d ", tmp2->pred);*/
+    //tmp->suivant->pred = tmp ;
     return tmp ;
+}
+
+void empileBis(int x, ListeBis *L)
+{
+    *L = ajouteBis(x,*L) ; 
 }
 
 void depileBis(ListeBis *L)
@@ -812,9 +826,10 @@ void VideListeBis(ListeBis *L)
 void affiche_recBis(ListeBis l)
 {
     if(estVideBis(l))
-        printf("\n");
+        printf("\n fin \n");
     else
     {
+        //printf("yo");
         printf("%d ", premierBis(l));
         affiche_recBis(suiteBis(l));
     }
@@ -1004,8 +1019,8 @@ int main(int argc, char** argv)
 
     /*ListeListe ll1;
     initListeVide(&ll1) ;
-    ajouteListe(l1, ll1);
-    ajouteListe(l2, ll1);
+    empileListe(l1, &ll1);
+    empileListe(l2, &ll1);
 
     afficheListe_rec(ll1);
     VideListeListe(&ll1);*/
@@ -1013,7 +1028,8 @@ int main(int argc, char** argv)
 
     ListeBis lb1;
     initVideBis(&lb1);
-    ajouteBis(5, lb1);
+    empileBis(5, &lb1);
+    empileBis(8, &lb1);
 
     affiche_recBis(lb1);
 
