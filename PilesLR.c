@@ -30,6 +30,25 @@ typedef struct Bloc
 
 typedef Bloc *Liste ;
 
+
+typedef struct Listes
+{
+    Liste liste;
+    struct Listes *suivant;
+} Listes;
+
+typedef Listes *ListeListe ;
+
+typedef struct BlocBis
+{
+    int nombre;
+    struct BlocBis *suivant;
+    struct BlocBis *pred;
+} BlocBis;
+
+typedef BlocBis *ListeBis ;
+
+
 /*************************************************/
 /*                                               */
 /*                predeclarations                */
@@ -543,7 +562,7 @@ Liste FctBegayeRecTer(Liste l){
     return l2;
 }*/
 
-Liste FctBegayeRecIter(Liste l){
+Liste FctBegayeIter(Liste l){
     Liste temp;
     initVide (&temp);
     Liste l2;
@@ -566,7 +585,6 @@ Liste FctBegayeRecIter(Liste l){
     {
         //printf(" l = %d \n", l->nombre);
         if (l->nombre > 0){
-
             temp = ajoute(l->nombre, temp);
         }
         l = l->suivant;
@@ -581,27 +599,148 @@ Liste FctBegayeRecIter(Liste l){
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-/*void ProcBegaye(Liste *l){
-    if (l!= NULL){
-        if (l->nombre > 0)
-            *l = 
-    }
-}*/
 
 void ProcBegaye(Liste *L){
     Liste temp;
-    if (!estVide(L)){
-        if (premier(L) > 0){
-            *temp = *(L.suivant);
-            *(L.suivant) = premier(L);
-            *(L.suivant).suivant = temp;
+    if ((*L) != NULL){
+        ProcBegaye((&(**L).suivant));
+        int temp = premier(*L);
+        depile(L);
+        if (temp > 0){
+           empile(temp, L);
+           empile(temp, L);
         }
-            
-            /*l2->suivant = l->nombre;
-            l2->suivant->suivant = NULL;*/
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+/*Liste ajoute(int x, Liste l)
+{
+    Liste tmp = (Liste) malloc(sizeof(Bloc)) ;
+    tmp->nombre = x ;
+    tmp->suivant = l ;
+    return tmp ;
+}*/
+
+// void initListeVide( Liste *LL)
+// { //initVideListe
+//     *LL = NULL ;
+// }
+
+// /* Ajoute une liste d'entier (l) au début de la liste de liste (ll) */
+// ListeListe ajouteListe(Liste l, ListeListe ll)
+// {
+//     ListeListe tmp = (ListeListe) malloc(sizeof(Listes)) ;
+//     tmp->liste = l;
+//     tmp->suivant = ll ;
+//     return tmp ;
+// }
+
+// ListeListe suiteListe(ListeListe ll)
+// {
+//     return ll->suivant ;
+// }
+
+// void depileListe(ListeListe *LL)
+// {
+//     ListeListe tmp = *LL ;
+//     *LL = suiteListe(*LL) ;
+//     free(tmp) ;
+// }
+
+// bool estVideListe(ListeListe ll)
+// {
+//     return ll == NULL ;
+// }
+
+// void VideListeListe(ListeListe *LL)
+// {
+//     if(NOT(estVideListe(*LL)))
+//     {
+//         depileListe(LL);
+//         VideListeListe(LL);
+//     }
+      
+// }
+
+// void afficheListe_rec(ListeListe ll)
+// {
+//     if(estVideListe(ll))
+//         printf(" --Fin de la liste de liste-- \n");
+//     else
+//     {
+//         //printf("%d ", premier(ll));
+//         affiche_rec(ll->liste);
+//         printf("\n");
+//         afficheListe_rec(suiteListe(ll));
+//     }
+// }
+
+// ////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Liste Concat(Liste l1, Liste l2){
+//     /*if (L1 == NULL)
+//         return L2;
+//     //L2 = ajoute(L1->nombre,L2);
+//     Concat(L1->suivant, L2);
+//     return ajoute(L1->nombre,L2);*/
+
+//     if (l1 == NULL){
+//         return l2;
+//     }
+//     return ajoute(l1->nombre,Concat(l1->suivant,l2));
+// }
+
+// ListeListe AETTL(int x, ListeListe ll){
+//     if(ll == NULL)
+//         return NULL;
+//     return (ajoute(x, ll->liste), AETTL(x, ll->suivant));
+//     //return (ajoute(x, &(ll->liste)), AETTL(x, ll->suivant));
+// }
+
+// /*ListeListe ATP(int x, ListeListe ll){
+//     if(ll == NULL) {
+//         ListeListe ll2;
+//         initVide(&ll2);
+//         Liste l2;
+//         initVide(&l2);
+//         return ajoute(ajoute(x,l2), ll2);
+//     }
+//     return ajoute(ajoute(x,ll), AETTL(
+        
+    
+// }*/
+
+// ListeListe ATP(int x, Liste l){
+//     if(l == NULL) {
+//         ListeListe ll2;
+//         initListeVide(&ll2);
+//         Liste l2;
+//         initVide(&l2);
+//         return ajouteListe(ajoute(x,l2), ll2);
+//     }
+//     return ajouteListe(ajoute(x,l), AETTL(l->nombre, ATP(x, l->suivant)));  
+// }
+
+// ListeListe ATLTP(int x, ListeListe ll){
+//     if(ll == NULL){
+//         /*ListeListe ll2;
+//         initListeVide(&ll2);
+//         return ll2;*/
+//         return NULL;
+//     }
+//     return Concat( (ATP(x, ll->liste)), ATLTP(x, ll->suivant));
+// }
+
+// ListeListe Permutations(int n){
+//     if(n == 0){
+//         //return NULL;
+//         ListeListe ll2;
+//         initListeVide(&ll2);
+//         return ll2;
+//     }
+//     return ATLTP(n, Permutations(n-1));
+// }
 /*
 Liste FctBegayeRec(Liste l){
     if (l!= NULL){
@@ -615,6 +754,108 @@ Liste FctBegayeRec(Liste l){
     return l2;
 }
 */
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void initVideBis( ListeBis *L)
+{
+    *L = NULL ;
+}
+
+bool estVideBis(ListeBis l)
+{
+    return l == NULL ;
+}
+
+int premierBis(ListeBis l)
+{
+    return l->nombre; 
+}
+
+ListeBis suiteBis(ListeBis l)
+{
+    return l->suivant;
+}
+
+ListeBis predBis(ListeBis l)
+{
+    return l->pred;
+}
+
+ListeBis ajouteBis(int x, ListeBis l)
+{
+    ListeBis tmp = (ListeBis) malloc(sizeof(BlocBis)) ;
+    tmp->nombre = x ;
+    tmp->suivant = l ;
+    tmp->pred = NULL ;
+    tmp->suivant->pred = tmp ;
+    return tmp ;
+}
+
+void depileBis(ListeBis *L)
+{
+    ListeBis tmp = *L ;
+    *L = suiteBis(*L) ;
+    //*L->pred = NUll;
+    free(tmp) ;
+}
+
+void VideListeBis(ListeBis *L)
+{
+    if(NOT(estVideBis(*L)))
+    {
+        depileBis(L);
+        VideListeBis(L);
+    }
+}
+
+void affiche_recBis(ListeBis l)
+{
+    if(estVideBis(l))
+        printf("\n");
+    else
+    {
+        printf("%d ", premierBis(l));
+        affiche_recBis(suiteBis(l));
+    }
+}
+
+void affiche_enversBis(ListeBis l)
+{
+    if(predBis(l) == NULL)
+        printf("\n");
+    else
+    {
+        printf("%d ", premierBis(l));
+        affiche_enversBis(predBis(l));
+    }
+}
+
+void affiche_rec_revBis(ListeBis l)
+{
+    if(estVideBis(l)){
+        printf("\n");
+        affiche_enversBis(l);
+    }
+        
+    else
+    {
+        printf("%d ", premierBis(l));
+        affiche_rec_revBis(suiteBis(l));
+    }
+}
+
+
+void supp(ListeBis *L){
+    ListeBis temp = *L;
+    /**L->suivant->pred = temp->pred;
+    *L->pred->suivant = temp->suivant;*/
+    *suiteBis(predBis(*L)) = *temp->pred;
+    *predBis(suiteBis(*L)) = *temp->suivant;
+    //free(temp);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*************************************************/
 /*                                               */
@@ -748,10 +989,35 @@ int main(int argc, char** argv)
     //printf("nb de 0 apres k = %d \n",NombreDe0ApresRetroPositionKRec(l4,6));
 
 
-    affiche_rec(FctBegayeRec(l5));
+    /*affiche_rec(FctBegayeRec(l5));
     affiche_rec(FctBegayeRecTer(l5));    
-    affiche_rec(FctBegayeRecIter(l5));
-    
+    affiche_rec(FctBegayeIter(l5));*/
+
+    /*affiche_rec(l5);
+    ProcBegaye(&l5);
+    affiche_rec(l5);*/
+
+
+    /*affiche_rec(l1);
+    affiche_rec(l2);
+    affiche_rec(Concat(l1,l2));*/
+
+    /*ListeListe ll1;
+    initListeVide(&ll1) ;
+    ajouteListe(l1, ll1);
+    ajouteListe(l2, ll1);
+
+    afficheListe_rec(ll1);
+    VideListeListe(&ll1);*/
+    ////////////////////////////////////////////////////////////////
+
+    ListeBis lb1;
+    initVideBis(&lb1);
+    ajouteBis(5, lb1);
+
+    affiche_recBis(lb1);
+
+    VideListeBis(&lb1);
 
     ////////////////////////////////////////////////////////////////
 
@@ -760,6 +1026,8 @@ int main(int argc, char** argv)
     VideListe(&l3);
     VideListe(&l4);
     VideListe(&l5);
+
+    
     return 0;
 }
 
