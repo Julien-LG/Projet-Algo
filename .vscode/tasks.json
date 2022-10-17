@@ -24,5 +24,6 @@
             "detail": "Tâche générée par le débogueur."
         }
     ],
-    "version": "2.0.0"
+    "version": "2.0.0",
+    "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe"
 }
