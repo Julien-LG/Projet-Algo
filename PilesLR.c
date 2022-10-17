@@ -43,8 +43,7 @@ typedef struct BlocBis
 {
     int nombre;
     struct BlocBis *suivant;
-    struct BlocBis **pred;
-    //struct BlocBis *pred;
+    struct BlocBis *pred;
 } BlocBis;
 
 typedef BlocBis *ListeBis ;
@@ -602,6 +601,7 @@ Liste FctBegayeIter(Liste l){
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ProcBegaye(Liste *L){
+    Liste temp;
     if ((*L) != NULL){
         ProcBegaye((&(**L).suivant));
         int temp = premier(*L);
@@ -627,14 +627,14 @@ void ProcBegaye(Liste *L){
 //     *LL = NULL ;
 // }
 
-/* Ajoute une liste d'entier (l) au début de la liste de liste (ll) */
-ListeListe ajouteListe(Liste l, ListeListe ll)
-{
-    ListeListe tmp = (ListeListe) malloc(sizeof(Listes)) ;
-    tmp->liste = l;
-    tmp->suivant = ll ;
-    return tmp ;
-}
+// /* Ajoute une liste d'entier (l) au début de la liste de liste (ll) */
+// ListeListe ajouteListe(Liste l, ListeListe ll)
+// {
+//     ListeListe tmp = (ListeListe) malloc(sizeof(Listes)) ;
+//     tmp->liste = l;
+//     tmp->suivant = ll ;
+//     return tmp ;
+// }
 
 // void empileListe(Liste l, ListeListe *LL)
 // {
@@ -668,82 +668,84 @@ ListeListe ajouteListe(Liste l, ListeListe ll)
       
 // }
 
-void afficheListe_rec(ListeListe ll)
-{
-    if(ll == NULL)
-        printf(" --Fin de la liste de liste-- \n");
-    else
-    {
-        //printf("%d ", premier(ll));
-        printf("[ ");
-        affiche_rec(ll->liste);
-        printf(" ]\n");
-        afficheListe_rec(ll->suivant);
-    }
-}
+// void afficheListe_rec(ListeListe ll)
+// {
+//     if(estVideListe(ll))
+//         printf(" --Fin de la liste de liste-- \n");
+//     else
+//     {
+//         //printf("%d ", premier(ll));
+//         affiche_rec(ll->liste);
+//         printf("\n");
+//         afficheListe_rec(suiteListe(ll));
+//     }
+// }
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////
 
-ListeListe Concat(ListeListe l1, ListeListe l2){
-    /*if (L1 == NULL)
-        return L2;
-    //L2 = ajoute(L1->nombre,L2);
-    Concat(L1->suivant, L2);
-    return ajoute(L1->nombre,L2);*/
-    if (l1 == NULL){
-        return l2;
-    }
-    return ajouteListe(l1->liste,Concat(l1->suivant,l2));
-}
+// Liste Concat(Liste l1, Liste l2){
+//     /*if (L1 == NULL)
+//         return L2;
+//     //L2 = ajoute(L1->nombre,L2);
+//     Concat(L1->suivant, L2);
+//     return ajoute(L1->nombre,L2);*/
 
-ListeListe AETTL(int x, ListeListe ll){
-    if(ll == NULL)
-        return NULL;
-    return ajouteListe(ajoute(x, ll->liste), AETTL(x, ll->suivant));
-    //return (ajoute(x, &(ll->liste)), AETTL(x, ll->suivant));
-}
+//     if (l1 == NULL){
+//         return l2;
+//     }
+//     return ajoute(l1->nombre,Concat(l1->suivant,l2));
+// }
 
-/*ListeListe ATP(int x, ListeListe ll){
-    if(ll == NULL) {
-        ListeListe ll2;
-        initVide(&ll2);
-        Liste l2;
-        initVide(&l2);
-        return ajoute(ajoute(x,l2), ll2);
-    }
-    return ajoute(ajoute(x,ll), AETTL(
+// ListeListe AETTL(int x, ListeListe ll){
+//     if(ll == NULL)
+//         return NULL;
+//     return (ajoute(x, ll->liste), AETTL(x, ll->suivant));
+//     //return (ajoute(x, &(ll->liste)), AETTL(x, ll->suivant));
+// }
+
+// /*ListeListe ATP(int x, ListeListe ll){
+//     if(ll == NULL) {
+//         ListeListe ll2;
+//         initVide(&ll2);
+//         Liste l2;
+//         initVide(&l2);
+//         return ajoute(ajoute(x,l2), ll2);
+//     }
+//     return ajoute(ajoute(x,ll), AETTL(
         
     
-}*/
+// }*/
 
-ListeListe ATP(int x, Liste l){
-    if(l == NULL) {
-        ListeListe ll2 = NULL;
-        Liste l2 = NULL;
-        return ajouteListe(ajoute(x,l2), ll2);
-    }
-    return ajouteListe(ajoute(x,l), AETTL(l->nombre, ATP(x, l->suivant)));  
-}
+// ListeListe ATP(int x, Liste l){
+//     if(l == NULL) {
+//         ListeListe ll2;
+//         initListeVide(&ll2);
+//         Liste l2;
+//         initVide(&l2);
+//         return ajouteListe(ajoute(x,l2), ll2);
+//     }
+//     return ajouteListe(ajoute(x,l), AETTL(l->nombre, ATP(x, l->suivant)));  
+// }
 
-ListeListe ATLTP(int x, ListeListe ll){
-    if(ll == NULL){
-        /*ListeListe ll2;
-        initListeVide(&ll2);
-        return ll2;*/
-        return NULL;
-    }
-    return Concat( (ATP(x, ll->liste)), ATLTP(x, ll->suivant));
-}
+// ListeListe ATLTP(int x, ListeListe ll){
+//     if(ll == NULL){
+//         /*ListeListe ll2;
+//         initListeVide(&ll2);
+//         return ll2;*/
+//         return NULL;
+//     }
+//     return Concat( (ATP(x, ll->liste)), ATLTP(x, ll->suivant));
+// }
 
-ListeListe Permutations(int n){
-    if(n == 0){
-        return NULL;
-        // ListeListe ll2;
-        // initListeVide(&ll2);
-        // return ll2;
-    }
-    return ATLTP(n, Permutations(n-1));
-}
+// ListeListe Permutations(int n){
+//     if(n == 0){
+//         //return NULL;
+//         ListeListe ll2;
+//         initListeVide(&ll2);
+//         return ll2;
+//     }
+//     return ATLTP(n, Permutations(n-1));
+// }
 /*
 Liste FctBegayeRec(Liste l){
     if (l!= NULL){
@@ -780,23 +782,25 @@ ListeBis suiteBis(ListeBis l)
     return l->suivant;
 }
 
-ListeBis* predBis(ListeBis l)
+ListeBis predBis(ListeBis l)
 {
     return l->pred;
 }
 
 ListeBis ajouteBis(int x, ListeBis l)
 {
-    ListeBis tmp = (ListeBis) malloc(sizeof(BlocBis)) ;
+    ListeBis tmp = (ListeBis) malloc(sizeof(BlocBis));
     tmp->nombre = x;
     tmp->suivant = l;
     tmp->pred = NULL;
-
-    if(l != NULL){
-        //l->pred = tmp; 
-        l->pred = &(tmp->suivant);
-    }
-    return tmp;
+    if(l!=NULL)
+        l->pred = tmp; //l->pred = tmp->suivant;
+    //printf("%d ", tmp->nombre);
+    //printf("%d ", (tmp->suivant)->pred);
+    /*ListeBis tmp2 = (tmp->suivant);
+    printf("%d ", tmp2->pred);*/
+    //tmp->suivant->pred = tmp ;
+    return tmp ;
 }
 
 void empileBis(int x, ListeBis *L)
@@ -840,7 +844,7 @@ void affiche_enversBis(ListeBis l)
     else
     {
         printf("%d ", premierBis(l));
-        affiche_enversBis(*predBis(l));
+        affiche_enversBis(predBis(l));
     }
 }
 
@@ -850,6 +854,7 @@ void affiche_rec_revBis(ListeBis l)
         printf("\n");
         affiche_enversBis(l);
     }
+        
     else
     {
         printf("%d ", premierBis(l));
@@ -858,48 +863,13 @@ void affiche_rec_revBis(ListeBis l)
 }
 
 
-/*void supp(ListeBis *L){
-    ListeBis temp = *L;
-    
-    if(temp->suivant == NULL){
-        if (temp->pred == NULL)
-            (*L) = NULL;
-        else
-            (*L)->pred->suivant = NULL;
-    }
-    else{
-        if (temp->pred == NULL){
-            (*L)->suivant->pred = NULL;
-            (*L) = (*L)->suivant;
-        }
-        else{
-            (*L)->suivant->pred = temp->pred;
-            (*L)->pred->suivant = temp->suivant;
-        }
-    }
-    free(temp);
-}*/
-
 void supp(ListeBis *L){
     ListeBis temp = *L;
-    
-    if(temp->suivant == NULL){
-        if (temp->pred == NULL)
-            (*L) = NULL;
-        else
-            *((*L)->pred) = NULL;
-    }
-    else{
-        if (temp->pred == NULL){
-            (*L)->suivant->pred = NULL;
-            (*L) = (*L)->suivant;
-        }
-        else{
-            (*L)->suivant->pred = temp->pred;
-            *((*L)->pred) = temp->suivant;
-        }
-    }
-    free(temp);
+    /**L->suivant->pred = temp->pred;
+    *L->pred->suivant = temp->suivant;*/
+    *suiteBis(predBis(*L)) = *temp->pred;
+    *predBis(suiteBis(*L)) = *temp->suivant;
+    //free(temp);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -922,7 +892,7 @@ void poup (Liste l)
                ) ;
 }
 
-int main()
+int main(int argc, char** argv)
 {
     /*Liste l ;
 
@@ -1056,21 +1026,13 @@ int main()
 
     afficheListe_rec(ll1);
     VideListeListe(&ll1);*/
-    ListeListe ll = Permutations(3);
-    afficheListe_rec(ll);
-
     ////////////////////////////////////////////////////////////////
 
     ListeBis lb1;
     initVideBis(&lb1);
     empileBis(5, &lb1);
     empileBis(8, &lb1);
-    empileBis(1, &lb1);
 
-    affiche_recBis(lb1);
-    supp(&lb1->suivant->suivant);
-    supp(&lb1->suivant);
-    supp(&lb1);
     affiche_recBis(lb1);
 
     VideListeBis(&lb1);
