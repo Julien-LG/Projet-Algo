@@ -789,10 +789,12 @@ ListeBis predBis(ListeBis l)
 
 ListeBis ajouteBis(int x, ListeBis l)
 {
-    ListeBis tmp = (ListeBis) malloc(sizeof(BlocBis)) ;
+    ListeBis tmp = (ListeBis) malloc(sizeof(BlocBis));
     tmp->nombre = x;
     tmp->suivant = l;
     tmp->pred = NULL;
+    if(l!=NULL)
+        l->pred = tmp; //l->pred = tmp->suivant;
     //printf("%d ", tmp->nombre);
     //printf("%d ", (tmp->suivant)->pred);
     /*ListeBis tmp2 = (tmp->suivant);
