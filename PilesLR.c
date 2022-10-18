@@ -677,7 +677,7 @@ void afficheListe_rec(ListeListe ll)
         //printf("%d ", premier(ll));
         printf("[ ");
         affiche_rec(ll->liste);
-        printf(" ]\n");
+        //printf(" \n");
         afficheListe_rec(ll->suivant);
     }
 }
@@ -737,7 +737,8 @@ ListeListe ATLTP(int x, ListeListe ll){
 
 ListeListe Permutations(int n){
     if(n == 0){
-        return NULL;
+        //return NULL;
+        return ajouteListe(NULL,NULL);
         // ListeListe ll2;
         // initListeVide(&ll2);
         // return ll2;
@@ -1056,12 +1057,51 @@ int main()
 
     afficheListe_rec(ll1);
     VideListeListe(&ll1);*/
-    ListeListe ll = Permutations(3);
+    ListeListe ll = Permutations(4);
     afficheListe_rec(ll);
+    
+    // ListeListe ll2 = ;
+    // afficheListe_rec(ATLTP(2,ajouteListe(ajoute(5,NULL),NULL)));
+    /*afficheListe_rec(ATLTP(4,
+    ajouteListe(
+        ajoute(5,
+            ajoute(7,(
+                ajoute(9,NULL))),
+                ajouteListe(
+                    ajoute(2,NULL),
+                    ajouteListe(
+                        ajoute(8,(
+                            ajoute(3,NULL),
+                            NULL)
+                        )
+                    )
+                )
+        ))));
+    */
+    /*ListeListe ll01 = NULL;
+    Liste l01 = NULL;
+    Liste l02 = NULL;
+    Liste l03 = NULL;
+    empile(8,&l01);
+    empile(3,&l01);
+
+    empile(2,&l02);
+    
+    empile(9,&l03);
+    empile(7,&l03);
+    empile(5,&l03);
+    ll01 = ajouteListe(NULL,ll01);
+    ll01 = ajouteListe(l01,ll01);
+    ll01 = ajouteListe(l02,ll01);
+    ll01 = ajouteListe(l03,ll01);
+    afficheListe_rec(ATLTP(4,ll01));*/
+    // afficheListe_rec(ATP(2,ajoute(5,NULL)));
+    // afficheListe_rec(AETTL(2,ajouteListe(ajoute(5,NULL),NULL)));
+    // afficheListe_rec(Concat(ajouteListe(ajoute(5,NULL),NULL),ajouteListe(ajoute(5,NULL),NULL)));
 
     ////////////////////////////////////////////////////////////////
 
-    ListeBis lb1;
+    /*ListeBis lb1;
     initVideBis(&lb1);
     empileBis(5, &lb1);
     empileBis(8, &lb1);
@@ -1074,7 +1114,7 @@ int main()
     affiche_recBis(lb1);
 
     VideListeBis(&lb1);
-
+*/
     ////////////////////////////////////////////////////////////////
 
     VideListe(&l1);
