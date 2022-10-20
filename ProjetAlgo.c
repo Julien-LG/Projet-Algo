@@ -9,13 +9,6 @@
 
 typedef enum { false, true } bool;
 
-/*#define FALSE 0
-#define TRUE !(FALSE)*/
-
-////////////////////////////////////////////////
-//////////////////// PARTIE 1 //////////////////
-////////////////////////////////////////////////
-
 int fact(int n){
      return n > 1?(n * fact(n-1)):1;
 }
@@ -32,14 +25,6 @@ float sommeInf(){
     return res;
 }
 
-/*void aux(int i, double x){
-    if (i < 1) //i < 50
-    {
-        printf("res2 = %f, iter %d\n", x, i);
-        //aux(i++,(i*x)-1.);
-        aux(i++,x);
-    }
-}*/
 void suite(){
     double x0 = sommeInf() - 1.;
 
@@ -49,9 +34,6 @@ void suite(){
         x0 = ((i*x0)-1.);
         printf("res2 = %f, iter %d\n", x0, i);
     }
-    
-    //printf("x0 = %f \n", x0);
-    //aux(0,x0);
 }
 
 ///////////////////* POWER *////////////////////
@@ -239,7 +221,6 @@ double power10(double x, int n){
         {
             r *= x;
         }
-        //n = n/2;
         n *= 0.5;
         x *= x;
     }
@@ -255,7 +236,6 @@ void suitePuissances(){
         N = power1(10,i);
         printf("10^%d = %f\n", i, power10((1+(1./N)),N));
     }
-    //return power1((1+1./N),N);
 }
 
 ////////////////////////////////////////////////
@@ -299,17 +279,11 @@ double suiteReelsIter(int n){
     for (int i = 1; i <= n; i++)
     {
         x0 = x0 + 2./x0;
-        //printf("res n° %d = %f\n", i, x0);
     }
     return x0;
 }
 
 double suiteReelsRec(int n){
-    /*double x0 = 1;
-    x0 = x0 + 2./x0;*/
-
-    //printf("res n° %d = %f\n", n, x0);
-
     if (n == 0)
         return 1;
     else{
@@ -348,13 +322,13 @@ int main(int argc, char const *argv[]){
         printf("res = %20.18f\n", sommeInf());
         /**
          * On peut voir que la formule tend vers 2.718282
-        */  
+        **/  
 
         //suite();
         /**
          * On utilisant un float on constate qu'à partir de la 39ème itération le programme n'affiche plus la suite des résultats
          * On utilisant un double au lieu d'un float, on peut voir que le programme ne plante plus pour les 50 premières itérations, on peut voir que ça tend vers l'infini.
-         */
+         **/
 
         //// Partie sur les fonctions Power
         /*printf("res1 = %f\n", power1(2,6));
@@ -370,6 +344,7 @@ int main(int argc, char const *argv[]){
 
         printf("res-1 = %f\n", power1(2,-6));
         printf("res-2 = %f\n", power2(2,-6));*/
+
 
         //// Partie pour la suite de puissance de 10
         //suitePuissances();
@@ -402,7 +377,7 @@ int main(int argc, char const *argv[]){
 
         //suitePuissances();
         /**
-         * la suite semble tendre vers 2.718282 comme pour pour "e"
+         * la suite semble tendre vers 2.718282 comme pour "e"
          * On peut apercevoir un probleme a partir 10^10, la calcul commence a descendre pour finalement bloquer a 1.0
          * */ 
 

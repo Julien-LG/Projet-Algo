@@ -246,7 +246,7 @@ void VideListe(Liste *L)
 
 /*************************************************/
 /*                                               */
-/*       Implementation perso                    */
+/*       Implementations perso                   */
 /*                                               */
 /*************************************************/
 
@@ -277,80 +277,6 @@ bool Pluscourte(Liste l1, Liste l2){
     return Pluscourte(l1->suivant, l2->suivant);
 }
 
-/*
-bool aux_ZeroEnPositionUnOuDeuxOuTrois(Liste *L, int acc){
-    if ( (*L) != NULL && acc < 3){
-        printf("acc = %d | L = %d \n", acc, premier(*L));
-        if(premier(*L) == 0)
-            return TRUE;
-        aux_ZeroEnPositionUnOuDeuxOuTrois(& ( (**L).suivant ), acc+1);
-    }
-    else
-        return FALSE;
-}
-bool ZeroEnPositionUnOuDeuxOuTrois(Liste *L){
-    if ( (*L) != NULL)
-    {
-        Liste temp = *L;
-        return aux_ZeroEnPositionUnOuDeuxOuTrois(&temp, 0);
-    }
-    return FALSE;;
-}
-*/
-
-/*int aux_NombreDe0AvantPositionK(Liste *L, int K, int cpt){
-    printf("cpt = %d | L = %d \n", cpt, premier(*L));
-    if ((*L) == NULL)
-        return cpt;
-    /*if (K == 0 && premier(*L) == 0)
-        return aux_NombreDe0AvantPositionK(&((**L).suivant), 0, cpt+1);
-    else
-        return aux_NombreDe0AvantPositionK(&((**L).suivant), K-1, cpt);*/
-    /*if (K == 0)
-    {
-        return aux_NombreDe0AvantPositionK(&((**L).suivant), 0, cpt+1);
-    }
-        
-    
-}
-int NombreDe0AvantPositionK(Liste *L, int K){
-    if ((*L) == NULL)
-        return 0;
-    //Liste temp = *L;
-    return aux_NombreDe0AvantPositionK(L, K, 0);
-}*/
-
-/*int NombreDe0AvantPositionKRec(Liste l, int k){   
-    /*if (l != NULL){
-        if (k == 0 && l->nombre == 0)
-            return 1 + NombreDe0AvantPositionKRec(l->suivant, k);
-        else
-            return NombreDe0AvantPositionKRec(l->suivant, k-1);
-    }
-    return 0;*/
-
-    /*if (l == NULL)
-        return 0;
-    if (k == 0 && l->nombre == 0)
-            return 1 + NombreDe0AvantPositionKRec(l->suivant, k);
-        else
-            return NombreDe0AvantPositionKRec(l->suivant, k-1);
-}
-
-int NombreDe0AvantPositionKIter(Liste l, int k){
-    int cpt = 0;
-
-    while (l != NULL)
-    {
-        if (k == 0 && l->nombre == 0)
-            cpt++;
-        else
-            k--;
-        l = l->suivant;
-    }
-    return cpt;
-}*/
-
 int NombreDe0AvantPositionKRec(Liste l, int k){   
     if (l != NULL && k > 0){
         if (l->nombre == 0)
@@ -372,18 +298,6 @@ int NombreDe0AvantPositionKIter(Liste l, int k){
     }
     return cpt;
 }
-/*double aux_suiteReelsRecTerFonc(int n, double x0){
-    if (n != 0)
-    {
-        x0 = x0+2./x0;
-        return aux_suiteReelsRecTerFonc(n-1, x0);
-    }
-    return x0;
-}
-double suiteReelsRecTerFonc(int n){
-    return aux_suiteReelsRecTerFonc(n, 1.);
-}
-*/
 
 int aux_NombreDe0AvantPositionKSousRecTer(Liste l, int k, int cpt){
     if (l != NULL && k > 0){
@@ -398,19 +312,7 @@ int NombreDe0AvantPositionKSousRecTer(Liste l, int k){
         return 0;
     return aux_NombreDe0AvantPositionKSousRecTer(l, k, 0);
 }
-/*void aux_suiteReelsRecTerProc(int n, double *r){
-    if (n != 0)
-    {
-        *r = *r+2./(*r);
-        aux_suiteReelsRecTerProc(n-1, r);
-    }
-}
-double suiteReelsRecTerProc(int n){
-    double x0 = 1.;
-    aux_suiteReelsRecTerProc(n, &x0);
-    return x0;
-}
-*/
+
 void aux_NombreDe0AvantPositionKSousProcTer(Liste l, int k, int *cpt){
     if (l != NULL && k > 0){
         if (l->nombre == 0){
@@ -427,66 +329,6 @@ int NombreDe0AvantPositionKSousProcTer(Liste l, int k){
     return cpt;
 }
 
-
-/*int NombreDe0ApresRetroPositionKIter(Liste l, int k){   
-    if (l != NULL){
-        if (l->nombre == 0 && k <= 1)
-            return 1 + NombreDe0AvantPositionKRec(l->suivant, k-1);
-        return NombreDe0AvantPositionKRec(l->suivant, k-1);
-    }
-    return 0;
-}*/
-
-/*int NombreDe0ApresRetroPositionKIter(Liste l, int k){
-    int cpt = 0;
-
-    while (l != NULL)
-    {
-        //printf("k = % d\n", k);
-        if (k == 1 && l->nombre == 0)
-            cpt++;
-        else
-            k--;
-        //printf("cpt = % d\n", cpt);
-        l = l->suivant;
-    }
-    return cpt;
-}*/
-
-/*int NombreDe0ApresRetroPositionKRec(Liste l, int k){   
-    if (l != NULL){
-        printf("l = %d |cpt = %d |k = %d \n", l->nombre, cpt, k);
-        if (l->nombre == 0 && k == 0){
-            return 1 + NombreDe0ApresRetroPositionKRec(l->suivant, k);
-        }
-            
-        return NombreDe0ApresRetroPositionKRec(l->suivant, k-1);
-    }
-    return 0;
-}*/
-
-/*void NombreDe0ApresRetroPositionKRec(Liste l, int *k){   
-    if (l != NULL && *k != 0){
-        if (l->nombre == 0 && *k > 0){
-            *k = *k + 1;
-        }
-            
-        NombreDe0ApresRetroPositionKRec(l->suivant, k-1);
-        printf("l = %d | k = %d \n", l->nombre, k);
-    }
-}*/
-
-/*save en version procédurale*/
-/*void aux_NombreDe0ApresRetroPositionKRec(Liste l, int *k, int *cpt){   
-    //printf(" l = %d \n", l->nombre);
-    if (l != NULL){    
-        if (*k != 0 && l->nombre == 0)
-            *cpt = *cpt + 1;      
-        aux_NombreDe0ApresRetroPositionKRec(l->suivant, k, cpt);
-        *k = *k - 1;
-        printf("l = %d |cpt = %d |k = %d \n", l->nombre, *cpt, *k);
-    }
-}*/
 void aux_NombreDe0ApresRetroPositionKRec(Liste l, int *k, int *cpt){   
     if (l != NULL){
         aux_NombreDe0ApresRetroPositionKRec(l->suivant, k, cpt);
@@ -534,57 +376,15 @@ Liste FctBegayeRecTer(Liste l){
     return l2;
 }
 
-/*if (l!= NULL){
-        printf(" l = %d \n", l->nombre);
-        if (l->nombre > 0)
-            return ajoute(l->nombre, ajoute(l->nombre, FctBegayeRecProc(l->suivant)));
-        return FctBegayeRecProc(l->suivant);
-    }
-    Liste l2;
-    initVide (&l2) ;
-    return l2;*/
-/*Liste FctBegayeRecIter(Liste l){
-    
-    Liste l2;
-    initVide (&l2) ;
-    //l2 = ajoute(158, l2);
-    while (l != NULL)
-    {
-        //printf(" l = %d \n", l->nombre);
-        if (l->nombre > 0)
-            l2 = ajoute(l->nombre, ajoute(l->nombre, l2));
-        /*if (l->nombre > 0){
-            l2 = ajoute(l->nombre, l2);
-            l2 = ajoute(l->nombre, l2);
-        }*/
-        /*l = l->suivant;
-    }
-    //affiche_rec(l2);
-    return l2;
-}*/
-
 Liste FctBegayeIter(Liste l){
     Liste temp;
     initVide (&temp);
     Liste l2;
     initVide (&l2);
-    //l2 = ajoute(158, l2);
-    /*while (l != NULL)
-    {
-        //printf(" l = %d \n", l->nombre);
-        if (l->nombre > 0){
-            /*l2->suivant = l->nombre;
-            l2->suivant->suivant = NULL;*/
-            /*l2 = ajoute(l->nombre, ajoute(l->nombre, l2));
-        }
-            //l2 = ajoute(l->nombre, ajoute(l->nombre, l2));
-        l = l->suivant;
-    }*/
-
+    
     //version facile
     while (l != NULL)
     {
-        //printf(" l = %d \n", l->nombre);
         if (l->nombre > 0){
             temp = ajoute(l->nombre, temp);
         }
@@ -593,7 +393,6 @@ Liste FctBegayeIter(Liste l){
     
     while(temp != NULL){
         l2 = ajoute(temp->nombre, ajoute(temp->nombre, l2));
-        //l2 = ajoute(temp->nombre, l2);
         temp = temp->suivant;
     }
     return l2;
@@ -614,18 +413,12 @@ void ProcBegaye(Liste *L){
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-/*Liste ajoute(int x, Liste l)
-{
-    Liste tmp = (Liste) malloc(sizeof(Bloc)) ;
-    tmp->nombre = x ;
-    tmp->suivant = l ;
-    return tmp ;
-}*/
 
-// void initListeVide( Liste *LL)
-// { //initVideListe
-//     *LL = NULL ;
-// }
+/*************************************************/
+/*                                               */
+/*     Fonctions pour le type ListeListe         */
+/*                                               */
+/*************************************************/
 
 /* Ajoute une liste d'entier (l) au début de la liste de liste (ll) */
 ListeListe ajouteListe(Liste l, ListeListe ll)
@@ -636,45 +429,12 @@ ListeListe ajouteListe(Liste l, ListeListe ll)
     return tmp ;
 }
 
-// void empileListe(Liste l, ListeListe *LL)
-// {
-//       *LL = ajouteListe(l,*LL) ; 
-// }
-
-// ListeListe suiteListe(ListeListe ll)
-// {
-//     return ll->suivant ;
-// }
-
-// void depileListe(ListeListe *LL)
-// {
-//     ListeListe tmp = *LL ;
-//     *LL = suiteListe(*LL) ;
-//     free(tmp) ;
-// }
-
-// bool estVideListe(ListeListe ll)
-// {
-//     return ll == NULL ;
-// }
-
-// void VideListeListe(ListeListe *LL)
-// {
-//     if(NOT(estVideListe(*LL)))
-//     {
-//         depileListe(LL);
-//         VideListeListe(LL);
-//     }
-      
-// }
-
 void afficheListe_rec(ListeListe ll)
 {
     if(ll == NULL)
         printf(" --Fin de la liste de liste-- \n");
     else
     {
-        //printf("%d ", premier(ll));
         printf("[ ");
         affiche_rec(ll->liste);
         //printf(" \n");
@@ -684,12 +444,13 @@ void afficheListe_rec(ListeListe ll)
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////
 
+/*************************************************/
+/*                                               */
+/*     Fonctions pour la fonction permutation    */
+/*                                               */
+/*************************************************/
+
 ListeListe Concat(ListeListe l1, ListeListe l2){
-    /*if (L1 == NULL)
-        return L2;
-    //L2 = ajoute(L1->nombre,L2);
-    Concat(L1->suivant, L2);
-    return ajoute(L1->nombre,L2);*/
     if (l1 == NULL){
         return l2;
     }
@@ -700,21 +461,7 @@ ListeListe AETTL(int x, ListeListe ll){
     if(ll == NULL)
         return NULL;
     return ajouteListe(ajoute(x, ll->liste), AETTL(x, ll->suivant));
-    //return (ajoute(x, &(ll->liste)), AETTL(x, ll->suivant));
 }
-
-/*ListeListe ATP(int x, ListeListe ll){
-    if(ll == NULL) {
-        ListeListe ll2;
-        initVide(&ll2);
-        Liste l2;
-        initVide(&l2);
-        return ajoute(ajoute(x,l2), ll2);
-    }
-    return ajoute(ajoute(x,ll), AETTL(
-        
-    
-}*/
 
 ListeListe ATP(int x, Liste l){
     if(l == NULL) {
@@ -727,9 +474,6 @@ ListeListe ATP(int x, Liste l){
 
 ListeListe ATLTP(int x, ListeListe ll){
     if(ll == NULL){
-        /*ListeListe ll2;
-        initListeVide(&ll2);
-        return ll2;*/
         return NULL;
     }
     return Concat( (ATP(x, ll->liste)), ATLTP(x, ll->suivant));
@@ -737,29 +481,18 @@ ListeListe ATLTP(int x, ListeListe ll){
 
 ListeListe Permutations(int n){
     if(n == 0){
-        //return NULL;
         return ajouteListe(NULL,NULL);
-        // ListeListe ll2;
-        // initListeVide(&ll2);
-        // return ll2;
     }
     return ATLTP(n, Permutations(n-1));
 }
-/*
-Liste FctBegayeRec(Liste l){
-    if (l!= NULL){
-        printf(" l = %d \n", l->nombre);
-        if (l->nombre > 0)
-            return ajoute(l->nombre, ajoute(l->nombre, FctBegayeRec(l->suivant)));
-        return FctBegayeRec(l->suivant);
-    }
-    Liste l2;
-    initVide (&l2) ;
-    return l2;
-}
-*/
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*************************************************/
+/*                                               */
+/*     Fonctions pour le type ListeBis           */
+/*                                               */
+/*************************************************/
 
 void initVideBis( ListeBis *L)
 {
@@ -828,58 +561,10 @@ void affiche_recBis(ListeBis l)
         printf("\n fin \n");
     else
     {
-        //printf("yo");
         printf("%d ", premierBis(l));
         affiche_recBis(suiteBis(l));
     }
 }
-
-void affiche_enversBis(ListeBis l)
-{
-    if(predBis(l) == NULL)
-        printf("\n");
-    else
-    {
-        printf("%d ", premierBis(l));
-        affiche_enversBis(*predBis(l));
-    }
-}
-
-void affiche_rec_revBis(ListeBis l)
-{
-    if(estVideBis(l)){
-        printf("\n");
-        affiche_enversBis(l);
-    }
-    else
-    {
-        printf("%d ", premierBis(l));
-        affiche_rec_revBis(suiteBis(l));
-    }
-}
-
-
-/*void supp(ListeBis *L){
-    ListeBis temp = *L;
-    
-    if(temp->suivant == NULL){
-        if (temp->pred == NULL)
-            (*L) = NULL;
-        else
-            (*L)->pred->suivant = NULL;
-    }
-    else{
-        if (temp->pred == NULL){
-            (*L)->suivant->pred = NULL;
-            (*L) = (*L)->suivant;
-        }
-        else{
-            (*L)->suivant->pred = temp->pred;
-            (*L)->pred->suivant = temp->suivant;
-        }
-    }
-    free(temp);
-}*/
 
 void supp(ListeBis *L){
     ListeBis temp = *L;
@@ -1060,24 +745,8 @@ int main()
     ListeListe ll = Permutations(4);
     afficheListe_rec(ll);
     
-    // ListeListe ll2 = ;
     // afficheListe_rec(ATLTP(2,ajouteListe(ajoute(5,NULL),NULL)));
-    /*afficheListe_rec(ATLTP(4,
-    ajouteListe(
-        ajoute(5,
-            ajoute(7,(
-                ajoute(9,NULL))),
-                ajouteListe(
-                    ajoute(2,NULL),
-                    ajouteListe(
-                        ajoute(8,(
-                            ajoute(3,NULL),
-                            NULL)
-                        )
-                    )
-                )
-        ))));
-    */
+
     /*ListeListe ll01 = NULL;
     Liste l01 = NULL;
     Liste l02 = NULL;
