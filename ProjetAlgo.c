@@ -25,7 +25,7 @@ float sommeInf(){
     float res = 1.;
     for (int i = 2; i < 13; i++)
     {        
-        printf("res1 = %f\n", res);
+        printf("res1 = %20.18f\n", res);
         res += (1./(f));
         f *= i; 
     }
@@ -345,7 +345,7 @@ double suiteReelsRecTerProc(int n){
 
 
 int main(int argc, char const *argv[]){
-        //printf("res = %f\n", sommeInf());
+        printf("res = %20.18f\n", sommeInf());
         /**
          * On peut voir que la formule tend vers 2.718282
         */  
