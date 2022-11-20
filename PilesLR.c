@@ -250,23 +250,24 @@ void VideListe(Liste *L)
 /*                                               */
 /*************************************************/
 
-bool aux_ZeroEnPositionUnOuDeuxOuTrois(Liste *L, int acc){
-    if ( (*L) != NULL && acc < 3){
-        printf("acc = %d | L = %d \n", acc, premier(*L));
-        if(premier(*L) == 0)
-            return TRUE;
-        aux_ZeroEnPositionUnOuDeuxOuTrois(& ( (**L).suivant ), acc+1);
-    }
-    else
+bool aux_ZeroEnPositionUnOuDeuxOuTrois(Liste l, int acc){
+    if ( acc >= 3){
         return FALSE;
-}
-bool ZeroEnPositionUnOuDeuxOuTrois(Liste *L){
-    if ( (*L) != NULL)
-    {
-        Liste temp = *L;
-        return aux_ZeroEnPositionUnOuDeuxOuTrois(&temp, 0);
     }
-    return FALSE;;
+    else{
+        printf("acc = %d | l = %d \n", acc, l->nombre);
+        if(l->nombre == 0)
+            return TRUE;
+        aux_ZeroEnPositionUnOuDeuxOuTrois(l->suivant, acc+1);
+    }   
+}
+bool ZeroEnPositionUnOuDeuxOuTrois(Liste l){
+    if ( l == NULL){
+        return FALSE;;
+    }
+    else{
+        return aux_ZeroEnPositionUnOuDeuxOuTrois(l, 0);
+    }
 }
 
 bool Pluscourte(Liste l1, Liste l2){
@@ -278,12 +279,14 @@ bool Pluscourte(Liste l1, Liste l2){
 }
 
 int NombreDe0AvantPositionKRec(Liste l, int k){   
-    if (l != NULL && k > 0){
+    if (l == NULL || k <= 0){
+        return 0;
+    }
+    else{
         if (l->nombre == 0)
             return 1 + NombreDe0AvantPositionKRec(l->suivant, k-1);
         return NombreDe0AvantPositionKRec(l->suivant, k-1);
     }
-    return 0;
 }
 
 int NombreDe0AvantPositionKIter(Liste l, int k){
@@ -300,16 +303,16 @@ int NombreDe0AvantPositionKIter(Liste l, int k){
 }
 
 int aux_NombreDe0AvantPositionKSousRecTer(Liste l, int k, int cpt){
-    if (l != NULL && k > 0){
+    if (l == NULL || k <= 0){
+        return cpt;
+    }
+    else{
         if (l->nombre == 0)
             return aux_NombreDe0AvantPositionKSousRecTer(l->suivant, k-1, cpt+1);
         return aux_NombreDe0AvantPositionKSousRecTer(l->suivant, k-1, cpt);
     }
-    return cpt;
 }
 int NombreDe0AvantPositionKSousRecTer(Liste l, int k){
-    if (l == NULL)
-        return 0;
     return aux_NombreDe0AvantPositionKSousRecTer(l, k, 0);
 }
 
@@ -322,13 +325,14 @@ void aux_NombreDe0AvantPositionKSousProcTer(Liste l, int k, int *cpt){
     }
 } 
 int NombreDe0AvantPositionKSousProcTer(Liste l, int k){   
-    if (l == NULL)
-        return 0;
+    /*if (l == NULL)
+        return 0;*/
     int cpt = 0;
     aux_NombreDe0AvantPositionKSousProcTer(l, k, &cpt);
     return cpt;
 }
 
+/*
 void aux_NombreDe0ApresRetroPositionKRec(Liste l, int *k, int *cpt){   
     if (l != NULL){
         aux_NombreDe0ApresRetroPositionKRec(l->suivant, k, cpt);
@@ -347,20 +351,42 @@ int NombreDe0ApresRetroPositionKRec(Liste l, int k){
     aux_NombreDe0ApresRetroPositionKRec(l, &k, &cpt);
     return cpt;
 }
+*/
+
+void aux_NombreDe0ApresRetroPositionKRec(Liste l, int *k, int *cpt){   
+    if (l != NULL){
+        *cpt = 0;
+        aux_NombreDe0ApresRetroPositionKRec(l->suivant, k, cpt);
+        if (*k != 0){
+            if (l->nombre == 0)
+                *cpt = *cpt + 1;
+            printf("l = %d |cpt = %d |k = %d \n", l->nombre, *cpt, *k);
+            *k = *k - 1;
+        } 
+    }
+}
+int NombreDe0ApresRetroPositionKRec(Liste l, int k){
+    /*if(l == NULL)
+        return 0;*/
+    //int cpt = 0;
+    int cpt;
+    aux_NombreDe0ApresRetroPositionKRec(l, &k, &cpt);
+    return cpt;
+}
 
 Liste FctBegayeRec(Liste l){
-    if (l!= NULL){
+    if (l== NULL){
+        return NULL;
+    }
+    else{
         printf(" l = %d \n", l->nombre);
         if (l->nombre > 0)
             return ajoute(l->nombre, ajoute(l->nombre, FctBegayeRec(l->suivant)));
         return FctBegayeRec(l->suivant);
     }
-    Liste l2;
-    initVide (&l2) ;
-    return l2;
 }
 
-void aux_FctBegayeRecTer(Liste l, Liste *l2){
+/*void aux_FctBegayeRecTer(Liste l, Liste *l2){
     if (l!= NULL){
         //printf(" l = %d \n", l->nombre);
         aux_FctBegayeRecTer(l->suivant, l2);
@@ -369,18 +395,70 @@ void aux_FctBegayeRecTer(Liste l, Liste *l2){
     }
 }
 Liste FctBegayeRecTer(Liste l){
-    Liste l2;
-    initVide (&l2) ;
-    if (l != NULL)
-        aux_FctBegayeRecTer(l, &l2);
+    Liste l2 = NULL;
+    //initVide (&l2) ;
+    //if (l != NULL)
+    aux_FctBegayeRecTer(l, &l2);
+    return l2;
+}*/
+
+/*Liste aux_FctBegayeRecTer(Liste l, Liste l2){
+    if (l!= NULL){
+        //printf(" l = %d \n", l->nombre);
+        //aux_FctBegayeRecTer(l->suivant, l2);
+        if (l->nombre > 0)
+            return ajoute(l->nombre, ajoute(l->nombre, aux_FctBegayeRecTer(l->suivant, l2)));
+        return aux_FctBegayeRecTer(l->suivant, l2);
+    }
+    return NULL;
+}
+Liste FctBegayeRecTer(Liste l){
+    return aux_FctBegayeRecTer(l, NULL);
+}*/
+
+void aux_FctBegayeRecTer(Liste l, Liste *l2){
+    if (l!= NULL){
+        aux_FctBegayeRecTer(l->suivant, l2);
+        if (l->nombre > 0)
+            *l2 = ajoute(l->nombre, ajoute(l->nombre, *l2));
+    }
+    /*if (l!= NULL){
+        if (l->nombre > 0)
+            aux_FctBegayeRecTer(l->suivant, ajoute(l->nombre, ajoute(l->nombre, *l2)));
+        aux_FctBegayeRecTer(l->suivant, l2);
+    }*/
+    /*if (l!= NULL){
+        if (l->nombre > 0)
+            *l2 = ajoute(l->nombre, ajoute(l->nombre, *l2));
+        aux_FctBegayeRecTer(l->suivant, l2);
+    }*/
+}
+Liste FctBegayeRecTer(Liste l){
+    Liste l2 = NULL;
+    //initVide (&l2) ;
+    //if (l != NULL)
+    aux_FctBegayeRecTer(l, &l2);
     return l2;
 }
+/***/
 
-Liste FctBegayeIter(Liste l){
-    Liste temp;
-    initVide (&temp);
-    Liste l2;
-    initVide (&l2);
+/*Liste ElimineToutesOccurences(int x, Liste *L){
+    if ((*L)==NULL){
+    }
+    else{
+        if (x == premier(L))
+        {
+            depile(L);
+            ElimineToutesOccurences();
+        }        
+    }    
+}*/
+
+/***/
+
+Liste FctBegayeIter1(Liste l){
+    Liste temp = NULL;;
+    Liste l2 = NULL;
     
     //version facile
     while (l != NULL)
@@ -396,6 +474,84 @@ Liste FctBegayeIter(Liste l){
         temp = temp->suivant;
     }
     return l2;
+}
+
+Liste FctBegayeIter(Liste l){
+    //Liste l2 = NULL;
+    //Liste *temp = &l2;;
+    Liste *temp = NULL;
+    //Liste *l2 = &temp;
+    Liste l2 = NULL;
+    //int compteur = 0;
+
+    while (l != NULL)
+    {
+        if (l->nombre > 0){
+            /*temp = ajoute(l->nombre, ajoute(l->nombre, NULL));
+            l2 = temp;
+            l2 = l2->suivant->suivant;*/
+            //temp = NULL; pas utile de le mettre a NULL puisque qu'il sera ecrasé a la prochaine passe
+            /**temp = ajoute(l->nombre, ajoute(l->nombre, *temp));
+            //l2 = temp;
+            *temp = (*temp)->suivant->suivant;*/
+            //temp->suivant = ajoute(l->nombre, ajoute(l->nombre, NULL));
+            /*temp = ajoute(l->nombre, ajoute(l->nombre, NULL));
+            if (l2 == NULL)
+            {
+                l2 = &temp;
+            }
+            //l2 = temp;
+            temp = temp->suivant->suivant;
+            temp = ajoute(28, ajoute(28, NULL));
+            temp->suivant->suivant = ajoute(00, NULL);*/
+
+            
+            if (l2 == NULL){
+                l2 = ajoute(l->nombre, ajoute(l->nombre, NULL));
+                temp = &l2;
+            }
+            else{
+                *temp = ajoute(l->nombre, ajoute(l->nombre, NULL));
+            }
+            //l2 = temp;
+            temp = &((*temp)->suivant->suivant);
+            //temp = ajoute(28, ajoute(28, NULL));
+            //temp->suivant->suivant = ajoute(00, NULL);
+        }
+        l = l->suivant;
+    }
+    return l2;
+    //return (*l2);
+    //return temp;
+    
+    //version facile
+    /*while (l != NULL)
+    {
+        if (l->nombre > 0){
+            temp = ajoute(l->nombre, temp);
+        }
+        l = l->suivant;
+    }
+    
+    while(temp != NULL){
+        l2 = ajoute(temp->nombre, ajoute(temp->nombre, l2));
+        temp = temp->suivant;
+    }*/
+    /*
+    bon debut
+    while (l != NULL)
+    {
+        if (l->nombre > 0){
+            temp = ajoute(l->nombre, ajoute(l->nombre, NULL));
+            l2->suivant = temp;
+            l2 = l2->suivant->suivant;
+            //temp = NULL; pas utile de le mettre a NULL puisque qu'il sera ecrasé a la prochaine passe
+
+        }
+        l = l->suivant;
+    }*/
+
+    
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -709,7 +865,14 @@ int main()
     empile(1, &l5) ;
     empile(2, &l5) ;
 
-    //printf("reponse = %d",ZeroEnPositionUnOuDeuxOuTrois(&l1));
+    Liste l6;
+    initVide (&l6) ;
+    empile(3, &l6) ;
+    empile(0, &l6) ;
+    empile(0, &l6) ;
+    empile(5, &l6) ;
+
+    //printf("reponse = %d",ZeroEnPositionUnOuDeuxOuTrois(l1));
 
     //printf("reponse = %d \n",Pluscourte(l1,l2));
 
@@ -723,8 +886,8 @@ int main()
 
 
     /*affiche_rec(FctBegayeRec(l5));
-    affiche_rec(FctBegayeRecTer(l5));    
-    affiche_rec(FctBegayeIter(l5));*/
+    affiche_rec(FctBegayeRecTer(l5));  */  
+    affiche_rec(FctBegayeIter(l5));
 
     /*affiche_rec(l5);
     ProcBegaye(&l5);
@@ -742,8 +905,8 @@ int main()
 
     afficheListe_rec(ll1);
     VideListeListe(&ll1);*/
-    ListeListe ll = Permutations(4);
-    afficheListe_rec(ll);
+    /*ListeListe ll = Permutations(4);
+    afficheListe_rec(ll);*/
     
     // afficheListe_rec(ATLTP(2,ajouteListe(ajoute(5,NULL),NULL)));
 

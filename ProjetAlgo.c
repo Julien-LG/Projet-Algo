@@ -293,12 +293,14 @@ double suiteReelsRec(int n){
 }
 
 double aux_suiteReelsRecTerFonc(int n, double x0){
-    if (n != 0)
+    if (n == 0)
     {
+        return x0;
+    }
+    else{
         x0 = x0+2./x0;
         return aux_suiteReelsRecTerFonc(n-1, x0);
     }
-    return x0;
 }
 double suiteReelsRecTerFonc(int n){
     return aux_suiteReelsRecTerFonc(n, 1.);
