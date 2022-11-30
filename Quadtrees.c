@@ -64,8 +64,50 @@ void affiche_Profondeur(image img){
     printf("\n");
 }
 /* a finir*/
-image lecture(char s[]){
-    return NULL;
+image aux_lecture(char *s, int *n){
+    image img;
+    //if (s[*n] != NULL){
+        switch (s[*n]){
+        case 'B':
+            img = construit_Blanc();
+            *n++;
+            break;
+        case 'N':
+            img = construit_Noir();
+            *n++;
+            break;
+        case '(':
+        printf("%s \n", s);
+            img = construit_Composee(aux_lecture(s[*n+1],n),aux_lecture(s[*n+1],n),aux_lecture(s[*n+1],n),aux_lecture(s[*n+1],n));
+            break;
+        case ')':
+            //(*n)+=4;
+            n++;
+            break;
+        default:
+            break;
+        }   
+    //}
+}
+image lecture(char *s){
+    /*image img;
+    if (s[0] != NULL){
+        switch (s[0]){
+        case 'B':
+            img = construit_Blanc();
+            break;
+        case 'N':
+            img = construit_Noir();
+            break;
+        case '(':
+            img = construit_Composee(lecture(s+1),lecture(s+2),lecture(s+3),lecture(s+4));
+            break;
+        default:
+            break;
+        }   
+    }*/
+    int *n = 0;
+    aux_lecture(s, n);
 }
 
 bool estNoire(image img){
@@ -168,7 +210,7 @@ bool incluse(image img1, image img2){
             return incluse(img1->fils[0],img2->fils[0]) && incluse(img1->fils[1],img2->fils[1]) && incluse(img1->fils[2],img2->fils[2]) && incluse(img1->fils[3],img2->fils[3]);
     }
 }
-int aux_hautMaxBlanc(image img, int max){
+int aux_hautMaxBlanc(image img, int *max){
     /*if (img == NULL){
         return 0;
     }
@@ -182,18 +224,20 @@ int aux_hautMaxBlanc(image img, int max){
         }
         else{
             if (estBlanche(img))
-            {
-                return  1 + (hautMaxBlanc(img->fils[0]) + hautMaxBlanc(img->fils[1]) + hautMaxBlanc(img->fils[2]) + hautMaxBlanc(img->fils[3]));
+
+                //return  1 + (hautMaxBlanc(img->fils[0]) + hautMaxBlanc(img->fils[1]) + hautMaxBlanc(img->fils[2]) + hautMaxBlanc(img->fils[3]));
+                return __max(*max,1 + (hautMaxBlanc(img->fils[0]) + hautMaxBlanc(img->fils[1]) + hautMaxBlanc(img->fils[2]) + hautMaxBlanc(img->fils[3])))
             }
             else{
                 return (-1);
             }
         }       
     }*/
-    //return max(1,max);
+    //return __max(1,*max);
 }
 int hautMaxBlanc(image img){
-    return aux_hautMaxBlanc(img, -2);
+    int m = -2;
+    return aux_hautMaxBlanc(img, &m);
     /*if (img == NULL){
         //printf("blanc \n");
         return 0;
@@ -331,10 +375,13 @@ int main(){
     // p = 0
     //printf("Max hauteur blanc %d \n", hautMaxBlanc(construit_Blanc()));
 
-    image img = construit_Noir();
+    /*image img = construit_Noir();
     affiche_Normal(img);
     //blanchitProfP(&img, 2, 0,3);
     blanchitProfP(&img, 0, 0,0);
     printf("\n");
-    affiche_Normal(img);
+    affiche_Normal(img);*/
+
+    printf("(NBN((BBBN)NNB)) \n");
+    affiche_Normal(lecture("(NBN((BBBN)NNB))"));
 }
