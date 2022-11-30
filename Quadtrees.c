@@ -66,8 +66,8 @@ void affiche_Profondeur(image img){
 /* a finir*/
 image aux_lecture(char *s, int *n){
     image img;
-    //if (s[*n] != NULL){
-        switch (s[*n]){
+    if (s[*n] != NULL){
+        /*switch (s[*n]){
         case 'B':
             img = construit_Blanc();
             *n++;
@@ -77,7 +77,7 @@ image aux_lecture(char *s, int *n){
             *n++;
             break;
         case '(':
-        printf("%s \n", s);
+        printf("%s \n", s);+-+
             img = construit_Composee(aux_lecture(s[*n+1],n),aux_lecture(s[*n+1],n),aux_lecture(s[*n+1],n),aux_lecture(s[*n+1],n));
             break;
         case ')':
@@ -86,8 +86,32 @@ image aux_lecture(char *s, int *n){
             break;
         default:
             break;
-        }   
-    //}
+        } */
+        switch (s[*n]){
+        case 'B':
+            //img = construit_Blanc();
+            *n = *n+1;
+            return construit_Blanc();
+            break;
+        case 'N':
+            //img = construit_Noir();
+            *n = *n+1;
+            return construit_Noir();
+            break;
+        case '(':
+        printf("%s \n", s);
+            *n = *n+1;
+            //img = construit_Composee(aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n));
+            return construit_Composee(aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n));
+            break;
+        case ')':
+            *n = *n+1;
+            break;
+        default:
+            break;
+        }
+        //return img;
+    }
 }
 image lecture(char *s){
     /*image img;
