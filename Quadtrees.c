@@ -65,54 +65,107 @@ void affiche_Profondeur(image img){
 }
 /* a finir*/
 image aux_lecture(char *s, int *n){
-    image img;
-    if (s[*n] != NULL){
-        /*switch (s[*n]){
-        case 'B':
-            img = construit_Blanc();
-            *n++;
-            break;
-        case 'N':
-            img = construit_Noir();
-            *n++;
-            break;
-        case '(':
-        printf("%s \n", s);+-+
-            img = construit_Composee(aux_lecture(s[*n+1],n),aux_lecture(s[*n+1],n),aux_lecture(s[*n+1],n),aux_lecture(s[*n+1],n));
-            break;
-        case ')':
-            //(*n)+=4;
-            n++;
-            break;
-        default:
-            break;
-        } */
+    //image img;
+    /*if (s[*n] != NULL){
         switch (s[*n]){
         case 'B':
             //img = construit_Blanc();
-            *n = *n+1;
-            return construit_Blanc();
+            //*n = *n+1;
+            //return construit_Blanc();
             break;
         case 'N':
             //img = construit_Noir();
-            *n = *n+1;
-            return construit_Noir();
+            //*n = *n+1;
+            //return construit_Noir();
             break;
         case '(':
-        printf("%s \n", s);
-            *n = *n+1;
+            //*n = *n+1;
             //img = construit_Composee(aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n));
-            return construit_Composee(aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n));
+            printf("%s \n", s);
+            //return construit_Composee(aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n));
             break;
         case ')':
-            *n = *n+1;
+            //*n = *n+1;
             break;
         default:
             break;
         }
         //return img;
-    }
+    }*/
+    *n += 1;
+    //if (s[0] != NULL){
+    image temp1;
+    image temp2;
+    image temp3;
+    image temp4;
+    switch (*(s+(*n))){
+    case 'B':
+        //*n = *n+1;
+        return construit_Blanc();
+    case 'N':
+        //*n = *n+1;
+        return construit_Noir();
+    case '(':
+        //*n = *n+1;
+
+        temp1 = aux_lecture(s, n);
+        printf("%d\n", *n);
+        temp2 = aux_lecture(s, n);
+        printf("%d\n", *n);
+        temp3 = aux_lecture(s, n);
+        printf("%d\n", *n);
+        //temp3 = NULL;
+        temp4 = aux_lecture(s, n);
+        printf("%d\n", *n);
+
+        //*n = *n+2;
+
+        return construit_Composee(temp1, temp2, temp3, temp4);
+        //return construit_Composee(aux_lecture(s+*n, n),aux_lecture(s+*n, n),aux_lecture(s+*n, n),aux_lecture(s+*n, n));
+        //printf("n = %d \n",n);
+        
+        //return construit_Composee(aux_lecture(s+1, n),aux_lecture(s+*n, n),NULL,NULL);
+        //return construit_Composee(aux_lecture(s+*n, n),NULL,NULL,NULL);
+        //return construit_Composee(aux_lecture(s+(*n+0),n),aux_lecture(s+(*n+1),n),aux_lecture(s+(*n+2),n),aux_lecture(s+(*n+3),n));
+        //return NULL;
+    /*case ')':
+        //*n = *n+4;
+        //*n = *n+1;
+        break;
+        //return;*/
+    default:
+        //*n = *n+1;
+        break;
+    }   
+    //}
 }
+
+/* nul
+image aux_lecture(char *s, int *n, image *img){
+    if (s[0] != NULL){
+        switch (s[0]){
+        case 'B':
+            *n = *n+1;
+            img = construit_Blanc();
+            break;
+        case 'N':
+            *n = *n+1;
+            img = construit_Noir();
+            break;
+        case '(':
+            //*n = *n+1;
+            img = construit_Composee(aux_lecture(s+*n, n),aux_lecture(s+*n, n),aux_lecture(s+*n, n),aux_lecture(s+*n, n));
+            //printf("n = %d \n",n);
+            //return NULL;
+        case ')':
+            //*n = *n+4;
+            *n = *n+1;
+            return;
+        default:
+            break;
+        }   
+    }
+}*/
 image lecture(char *s){
     /*image img;
     if (s[0] != NULL){
@@ -130,8 +183,9 @@ image lecture(char *s){
             break;
         }   
     }*/
-    int *n = 0;
-    aux_lecture(s, n);
+    int n = -1;
+    //printf("%d\n",n);
+    return aux_lecture(s, &n);
 }
 
 bool estNoire(image img){
@@ -406,6 +460,9 @@ int main(){
     printf("\n");
     affiche_Normal(img);*/
 
-    printf("(NBN((BBBN)NNB)) \n");
-    affiche_Normal(lecture("(NBN((BBBN)NNB))"));
+    //char s[] = "(NBN((BBBN)NNB))";
+    //char s[] = "((NBBB)NBN)";
+    char s[] = "((NNNN)NBN)";
+    printf("%s \n", s);
+    affiche_Normal(lecture(s));
 }
