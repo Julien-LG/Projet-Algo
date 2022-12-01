@@ -65,107 +65,30 @@ void affiche_Profondeur(image img){
 }
 /* a finir*/
 image aux_lecture(char *s, int *n){
-    //image img;
-    /*if (s[*n] != NULL){
-        switch (s[*n]){
-        case 'B':
-            //img = construit_Blanc();
-            //*n = *n+1;
-            //return construit_Blanc();
-            break;
-        case 'N':
-            //img = construit_Noir();
-            //*n = *n+1;
-            //return construit_Noir();
-            break;
-        case '(':
-            //*n = *n+1;
-            //img = construit_Composee(aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n));
-            printf("%s \n", s);
-            //return construit_Composee(aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n),aux_lecture(s[*n],n));
-            break;
-        case ')':
-            //*n = *n+1;
-            break;
-        default:
-            break;
-        }
-        //return img;
-    }*/
-    *n += 1;
-    //if (s[0] != NULL){
-    image temp1;
-    image temp2;
-    image temp3;
-    image temp4;
-    switch (*(s+(*n))){
-    case 'B':
-        //*n = *n+1;
-        return construit_Blanc();
-    case 'N':
-        //*n = *n+1;
+    *n+=1;
+    
+    if (*(s+(*n)) == 'N'){
         return construit_Noir();
-    case '(':
-        //*n = *n+1;
-
-        temp1 = aux_lecture(s, n);
-        printf("%d\n", *n);
-        temp2 = aux_lecture(s, n);
-        printf("%d\n", *n);
-        temp3 = aux_lecture(s, n);
-        printf("%d\n", *n);
-        //temp3 = NULL;
-        temp4 = aux_lecture(s, n);
-        printf("%d\n", *n);
-
-        //*n = *n+2;
+    }
+    else if (*(s+(*n)) == 'B'){
+        return construit_Blanc();
+    }
+    else if (*(s+(*n)) == '('){
+        image temp1 = aux_lecture(s, n);
+        //printf("%d\n", *n);
+        image temp2 = aux_lecture(s, n);
+        //printf("%d\n", *n);
+        image temp3 = aux_lecture(s, n);
+        //printf("%d\n", *n);
+        image temp4 = aux_lecture(s, n);
+        //printf("%d\n", *n);
 
         return construit_Composee(temp1, temp2, temp3, temp4);
-        //return construit_Composee(aux_lecture(s+*n, n),aux_lecture(s+*n, n),aux_lecture(s+*n, n),aux_lecture(s+*n, n));
-        //printf("n = %d \n",n);
-        
-        //return construit_Composee(aux_lecture(s+1, n),aux_lecture(s+*n, n),NULL,NULL);
-        //return construit_Composee(aux_lecture(s+*n, n),NULL,NULL,NULL);
-        //return construit_Composee(aux_lecture(s+(*n+0),n),aux_lecture(s+(*n+1),n),aux_lecture(s+(*n+2),n),aux_lecture(s+(*n+3),n));
-        //return NULL;
-    /*case ')':
-        //*n = *n+4;
-        //*n = *n+1;
-        break;
-        //return;*/
-    default:
-        //*n = *n+1;
-        break;
-    }   
-    //}
-}
-
-/* nul
-image aux_lecture(char *s, int *n, image *img){
-    if (s[0] != NULL){
-        switch (s[0]){
-        case 'B':
-            *n = *n+1;
-            img = construit_Blanc();
-            break;
-        case 'N':
-            *n = *n+1;
-            img = construit_Noir();
-            break;
-        case '(':
-            //*n = *n+1;
-            img = construit_Composee(aux_lecture(s+*n, n),aux_lecture(s+*n, n),aux_lecture(s+*n, n),aux_lecture(s+*n, n));
-            //printf("n = %d \n",n);
-            //return NULL;
-        case ')':
-            //*n = *n+4;
-            *n = *n+1;
-            return;
-        default:
-            break;
-        }   
     }
-}*/
+    else{
+        *n+=1;
+    }
+}
 image lecture(char *s){
     /*image img;
     if (s[0] != NULL){
@@ -346,21 +269,23 @@ int hautMaxBlanc(image img){
 }
 
 void blanchitProfP(image* img, int p, int x, int y){
-    int pp = (pow(2,p)-1);
+    float pp = (pow(2,p)-1);
+    printf("\n p = %p\n",p);
     if (x >= 0 && y >= 0 && x <= pp && y <= pp){
-        
+        printf("\n passe x : %d y : %d pp/2 : %f \n", x, y, pp/2);
         if (p == 0){
             //*img = construit_Blanc();
-            img = NULL;
-            printf("passe \n");
+            *img = NULL;
         }
         else{
+            //printf("\n passe x : %d y : %d pp/2 : %f \n", x, y, pp/2);
             int nbFils;
-            if (x >= 0 && x < pp/2){
+            if (x >= 0 && x < (pp/2)){
                 // fils 0 et 2
-                if (y >= pp/2 && y <= pp){
+                if (y >= (pp/2) && y <= pp){
                     // fils 0
                     nbFils = 0;
+                    y-=pp/2;
                 }
                 else{
                     // fils 2
@@ -369,21 +294,23 @@ void blanchitProfP(image* img, int p, int x, int y){
             }
             else{
                 // fils 1 et 3
-                if (y >= pp/2 && y <= pp){
+                if (y >= (pp/2) && y <= pp){
                     // fils 1
                     nbFils = 1;
+                    x-=pp/2;
+                    y-=pp/2;
                 }
                 else{
                     // fils 3
                     nbFils = 3;
+                    x-=pp/2;
                 }
             }
-            if (img == NULL)
-            {
+            printf("\n fils = %d \n", nbFils);
+            if (img == NULL){
                 *img = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc());
             }
-            else if ((*img)->toutnoir)
-            {
+            else if ((*img)->toutnoir){
                 *img = construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir());
             }
             
@@ -453,16 +380,31 @@ int main(){
     // p = 0
     //printf("Max hauteur blanc %d \n", hautMaxBlanc(construit_Blanc()));
 
-    /*image img = construit_Noir();
+    //image img = construit_Noir();
+    //image img = construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir());
+    //image img = construit_Composee(construit_Noir(),construit_Blanc(),construit_Noir(),construit_Blanc());
+    /*image img = construit_Composee(construit_Composee(construit_Noir(),construit_Composee(construit_Noir(),construit_Blanc(),construit_Noir(),construit_Noir()),construit_Noir(),construit_Noir()),construit_Blanc(),construit_Noir(),construit_Blanc());
     affiche_Normal(img);
     //blanchitProfP(&img, 2, 0,3);
-    blanchitProfP(&img, 0, 0,0);
+    blanchitProfP(&img, 2, 1, 3);
     printf("\n");
     affiche_Normal(img);*/
 
-    //char s[] = "(NBN((BBBN)NNB))";
+    /*char s[] = "(NBN((BBBN)NNB))";
     //char s[] = "((NBBB)NBN)";
-    char s[] = "((NNNN)NBN)";
+    //char s[] = "((NNNN)NBN)";
+    //char s[] = "(NNBN)";
     printf("%s \n", s);
-    affiche_Normal(lecture(s));
+    affiche_Normal(lecture(s));*/
+
+    /*char s[] = "(N(NB(NN(NNNN)N)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
+    printf("%s \n", s);
+    image img = lecture(s);
+    affiche_Normal(img);*/
+
+    /*simplifieProfP(&img, 2);
+    printf("\n");
+    affiche_Normal(img);*/
+
+    
 }
