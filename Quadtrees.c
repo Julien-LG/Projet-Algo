@@ -318,6 +318,78 @@ void blanchitProfP(image* img, int p, int x, int y){
         }
     }
 }
+void echange(image *img1, image *img2){
+    image temp = *img1;
+    *img1 = *img2;
+    *img2 = temp;
+    free(temp);
+}
+// l'image 1 est au dessus de l'image 2
+void tombe(image *img1, image *img2){
+    /*if (img2 == NULL && img1 != NULL){
+        image temp = *img1;
+        *img1 = *img2;
+        *img2 = temp;
+    }*/
+    if (img1 == NULL){
+        return;
+    }
+    else{
+        if ((*img1)->toutnoir){
+            if (img2 == NULL){
+                echange(img1, img2);
+            }
+            else if ((*img1)->toutnoir){
+                return;
+            }
+            else{
+                //chute(img2);
+                tombe(&((*img2)->fils[0]),&((*img2)->fils[2]));
+                tombe(&((*img2)->fils[1]),&((*img2)->fils[3]));
+                echange(img1, img2);
+            }
+        }
+        else{
+            if (img2 == NULL){
+                echange(img1, img2);
+            }
+            else if ((*img1)->toutnoir){
+                return;
+            }
+            else{
+                tombe(&((*img1)->fils[0]),&((*img1)->fils[2]));
+                tombe(&((*img1)->fils[1]),&((*img1)->fils[3]));
+                tombe(&((*img2)->fils[0]),&((*img2)->fils[2]));
+                tombe(&((*img2)->fils[1]),&((*img2)->fils[3]));
+                //chute(img1);
+                //chute(img2);
+                echange(&((*img1)->fils[1]),&((*img2)->fils[0]));
+                echange(&((*img1)->fils[3]),&((*img1)->fils[2]));
+                
+                tombe(&((*img1)->fils[0]),&((*img1)->fils[2]));
+                tombe(&((*img1)->fils[1]),&((*img1)->fils[3]));
+                tombe(&((*img2)->fils[0]),&((*img2)->fils[2]));
+                tombe(&((*img2)->fils[1]),&((*img2)->fils[3]));
+                //chute(img1);
+                //chute(img2);
+                echange(&((*img1)->fils[1]),&((*img2)->fils[0]));
+                echange(&((*img1)->fils[3]),&((*img1)->fils[2]));
+            }
+        }
+    }
+}
+void chute(image *img){
+    if (img == NULL){
+        return;
+    }        
+    else if ((*img)->toutnoir){
+        return;
+    }
+    else{
+        tombe(&((*img)->fils[0]),&((*img)->fils[2]));
+        tombe(&((*img)->fils[1]),&((*img)->fils[3]));
+    }
+}
 
 
 int main(){
@@ -343,13 +415,15 @@ int main(){
     //image img = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Noir(),construit_Blanc());
     
     /*image img = construit_Composee(construit_Composee(construit_Noir(),construit_Blanc(),construit_Blanc(),construit_Noir()),construit_Blanc(),construit_Blanc(),construit_Blanc());
+    //image img = construit_Composee(construit_Noir(),construit_Composee(construit_Noir(),construit_Blanc(),construit_Composee(construit_Noir(),construit_Noir(),construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir()),construit_Noir()),construit_Blanc()),construit_Composee(construit_Noir(),construit_Blanc(),construit_Noir(),construit_Composee(construit_Noir(),construit_Blanc(),construit_Noir(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()))),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Blanc()));
     affiche_Normal(img);
     quartDeTour(&img);
     printf("\n");
     affiche_Normal(img);*/
 
     //image img = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Noir());
-    /*image img = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Blanc());
+    //image img = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Blanc());
+    /*image img = construit_Composee(construit_Noir(),construit_Composee(construit_Noir(),construit_Blanc(),construit_Composee(construit_Noir(),construit_Noir(),construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir()),construit_Noir()),construit_Blanc()),construit_Composee(construit_Noir(),construit_Blanc(),construit_Noir(),construit_Composee(construit_Noir(),construit_Blanc(),construit_Noir(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()))),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Blanc()));
     affiche_Normal(img);
     simplifieProfP(&img, 2);
     printf("\n");
@@ -390,7 +464,12 @@ int main(){
     printf("\n");
     affiche_Normal(img);*/
 
-    /*char s[] = "(NBN((BBBN)NNB))";
+    /*//char s[] = "(NBN((BBBN)NNB))";
+    //char s[] = "(N(BBBN)N((BB(BBBN)N)NNB))";
+    //char s[] = "(N(NB(NN(NNNN)N)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
+    //char s[] = "(N(NB(NNBN)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
+    //char s[] = "(B(NB(NNBN)B)BN";
+    char s[] = "";
     //char s[] = "((NBBB)NBN)";
     //char s[] = "((NNNN)NBN)";
     //char s[] = "(NNBN)";
@@ -406,5 +485,12 @@ int main(){
     printf("\n");
     affiche_Normal(img);*/
 
-    
+    /*image img1 = construit_Noir();
+    image img2 = construit_Blanc();*/
+    image img3 = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc());
+    affiche_Normal(img3);
+    //tombe(&img1,&img2);
+    chute(&img3);
+    printf("\n");
+    affiche_Normal(img3);
 }
