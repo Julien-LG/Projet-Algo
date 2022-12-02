@@ -141,7 +141,7 @@ image diagonale(int p){
 }
 
 void quartDeTour(image *img){
-    if(img == NULL)
+    if(*img == NULL)
         return;
     else if ((*img)->toutnoir)
         return;
@@ -155,10 +155,11 @@ void quartDeTour(image *img){
         (*img)->fils[1] = temp0;
 
         for (size_t i = 0; i < 4; i++){
-            if(((*img)->fils[i]) != NULL)
+            /*if(((*img)->fils[i]) != NULL)
             {
                 quartDeTour(&((*img)->fils[i]));
-            }
+            }*/
+            quartDeTour(&((*img)->fils[i]));
         }
     }
 }
@@ -176,7 +177,7 @@ void negatif(image *img){
 }
 
 void simplifieProfP(image *img, int p){
-    if (img == NULL)
+    if (*img == NULL)
         return;
     else if ((*img)->toutnoir)
         return;
@@ -185,8 +186,7 @@ void simplifieProfP(image *img, int p){
             if(((*img)->fils[i]) != NULL)
                 simplifieProfP(&((*img)->fils[i]),p-1);
         }
-        if (p == 0)
-        {
+        if (p == 0){
             if(estNoire(*img)) ((*img)) = construit_Noir();
             else if(estBlanche(*img)) ((*img)) = construit_Blanc();
         }
@@ -484,8 +484,6 @@ int main(){
 
     simplifieProfP(&img, 2);
     affiche_Normal(img);*/
-    image img = construit_Blanc();
-    simplifieProfP(&img, 0);
 
     /*image img1 = construit_Noir();
     image img2 = construit_Blanc();*/
