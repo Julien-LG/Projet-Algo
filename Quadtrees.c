@@ -86,7 +86,7 @@ image aux_lecture(char *s, int *n){
         return construit_Composee(temp1, temp2, temp3, temp4);
     }
     else{
-        *n+=1;
+        aux_lecture(s,n);
     }
 }
 image lecture(char *s){
@@ -464,17 +464,17 @@ int main(){
     printf("\n");
     affiche_Normal(img);*/
 
-    /*//char s[] = "(NBN((BBBN)NNB))";
+    //char s[] = "(NBN((BBBN)NNB))";
     //char s[] = "(N(BBBN)N((BB(BBBN)N)NNB))";
-    //char s[] = "(N(NB(NN(NNNN)N)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
+    char s[] = "(N(NB(NN(NNNN)N)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
     //char s[] = "(N(NB(NNBN)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
     //char s[] = "(B(NB(NNBN)B)BN";
-    char s[] = "";
+    //char s[] = "";
     //char s[] = "((NBBB)NBN)";
     //char s[] = "((NNNN)NBN)";
     //char s[] = "(NNBN)";
     printf("%s \n", s);
-    affiche_Normal(lecture(s));*/
+    affiche_Normal(lecture(s));
 
     /*char s[] = "(N(NB(NN(NNNN)N)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
     printf("%s \n", s);
@@ -487,10 +487,10 @@ int main(){
 
     /*image img1 = construit_Noir();
     image img2 = construit_Blanc();*/
-    image img3 = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc());
+    /*image img3 = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc());
     affiche_Normal(img3);
     //tombe(&img1,&img2);
     chute(&img3);
     printf("\n");
-    affiche_Normal(img3);
+    affiche_Normal(img3);*/
 }
