@@ -1,9 +1,6 @@
-tester negaitif avec des NULL dans des compo
-
-lecture marche pas avec un long
+tester negatif avec des NULL dans des compo
 
 simplifie plante avec juste un construit blanc en arg
-et simplifie trop :sob:
 
 
 pour hautMaxBlanc 2 pbs, compte deux branches au lieu d'une

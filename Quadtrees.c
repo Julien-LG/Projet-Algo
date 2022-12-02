@@ -34,7 +34,7 @@ image construit_Composee(image i0,image i1,image i2,image i3){
     return tmp;
 }
 
-void affiche_Normal(image img){
+void aux_affiche_Normal(image img){
     if (img == NULL)
         printf("B");
     else if (img->toutnoir)
@@ -42,18 +42,22 @@ void affiche_Normal(image img){
     else{
         printf("(");
         for (size_t i = 0; i < 4; i++)
-            affiche_Normal(img->fils[i]);
+            aux_affiche_Normal(img->fils[i]);
         printf(")");
     }
+}
+void affiche_Normal(image img){
+    aux_affiche_Normal(img);
+    printf("\n");
 }
 
 void aux_affiche_Profondeur(image img, int prof){
     if (img == NULL)
-        printf("B%d ", prof);
+        printf("B%d", prof);
     else if (img->toutnoir)
-        printf("N%d ", prof);
+        printf("N%d", prof);
     else{
-        printf("( ");
+        printf("(");
         for (size_t i = 0; i < 4; i++)          
             aux_affiche_Profondeur(img->fils[i],prof+1);
         printf(")");
@@ -179,16 +183,12 @@ void simplifieProfP(image *img, int p){
     else{
         for (size_t i = 0; i < 4; i++){
             if(((*img)->fils[i]) != NULL)
-            {
                 simplifieProfP(&((*img)->fils[i]),p-1);
-            }
-            /*if(estNoire(((*img)->fils[i]))) ((*img)->fils[i]) = construit_Noir();
-            if(estBlanche(((*img)->fils[i]))) ((*img)->fils[i]) = construit_Blanc();*/
         }
-        if (p <= 1)
+        if (p == 0)
         {
             if(estNoire(*img)) ((*img)) = construit_Noir();
-            if(estBlanche(*img)) ((*img)) = construit_Blanc();
+            else if(estBlanche(*img)) ((*img)) = construit_Blanc();
         }
     }
 }
@@ -466,7 +466,7 @@ int main(){
 
     //char s[] = "(NBN((BBBN)NNB))";
     //char s[] = "(N(BBBN)N((BB(BBBN)N)NNB))";
-    char s[] = "(N(NB(NN(NNNN)N)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
+    /*char s[] = "(N(NB(NN(NNNN)N)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
     //char s[] = "(N(NB(NNBN)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
     //char s[] = "(B(NB(NNBN)B)BN";
     //char s[] = "";
@@ -474,16 +474,18 @@ int main(){
     //char s[] = "((NNNN)NBN)";
     //char s[] = "(NNBN)";
     printf("%s \n", s);
-    affiche_Normal(lecture(s));
+    affiche_Normal(lecture(s));*/
 
     /*char s[] = "(N(NB(NN(NNNN)N)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
-    printf("%s \n", s);
+    //printf("%s \n", s);
     image img = lecture(s);
-    affiche_Normal(img);*/
+    
+    printf("(N(NBNB)(NBN(NBN(BBBB)))(BBBB)) \n");
 
-    /*simplifieProfP(&img, 2);
-    printf("\n");
+    simplifieProfP(&img, 2);
     affiche_Normal(img);*/
+    image img = construit_Blanc();
+    simplifieProfP(&img, 0);
 
     /*image img1 = construit_Noir();
     image img2 = construit_Blanc();*/
