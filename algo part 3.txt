@@ -1,12 +1,2 @@
-tester negatif avec des NULL dans des compo
-
-simplifie plante avec juste un construit blanc en arg
-
-
-pour hautMaxBlanc 2 pbs, compte deux branches au lieu d'une
-et renvoi -1 si jamais on un N entre deux branches de B
-	|->	il faut utiliser le max pour garder la branche la plus longue
-
-
 free les tmp
 	free un N dans negatif

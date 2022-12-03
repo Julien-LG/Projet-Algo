@@ -146,10 +146,10 @@ image diagonale(int p){
         return;
     else{
         image temp0 = (*img)->fils[0];
-        image temp3 = (*img)->fils[3];
+        //image temp3 = (*img)->fils[3];
         
         (*img)->fils[0] = (*img)->fils[2];
-        (*img)->fils[2] = temp3;
+        (*img)->fils[2] = (*img)->fils[3];
         (*img)->fils[3] = (*img)->fils[1];
         (*img)->fils[1] = temp0;
 
@@ -181,7 +181,6 @@ void negatif(image *img){
         for (size_t i = 0; i < 4; i++)
             negatif(&(*img)->fils[i]);
     }
-    //printf("ici %d \n",(*img)->toutnoir);
 }
 
 void simplifieProfP(image *img, int p){
@@ -219,7 +218,50 @@ bool incluse(image img1, image img2){
             return incluse(img1->fils[0],img2->fils[0]) && incluse(img1->fils[1],img2->fils[1]) && incluse(img1->fils[2],img2->fils[2]) && incluse(img1->fils[3],img2->fils[3]);
     }
 }
+int maxInt(int n1, int n2){
+    return (n1>n2)?n1:n2;
+}
+int aux_hautMaxBlanc2(image img){
+    if (img == NULL){
+        return 0;
+    }
+    else if (img->toutnoir){
+        return (-1);
+    }
+    else{
+        if ((img->fils[0]) == NULL && (img->fils[1]) == NULL && (img->fils[2]) == NULL && (img->fils[3]) == NULL){
+            return 1;
+        }
+        else if (estBlanche(img)){
+            return 1 + maxInt(maxInt(maxInt(aux_hautMaxBlanc2(img->fils[0]),aux_hautMaxBlanc2(img->fils[1])),aux_hautMaxBlanc2(img->fils[2])),aux_hautMaxBlanc2(img->fils[3]));
+        }
+        else{
+            return maxInt(maxInt(maxInt(aux_hautMaxBlanc2(img->fils[0]),aux_hautMaxBlanc2(img->fils[1])),aux_hautMaxBlanc2(img->fils[2])),aux_hautMaxBlanc2(img->fils[3]));;
+        } 
+    }
+}
 int aux_hautMaxBlanc(image img, int *max){
+    if (img == NULL){
+        return 0;
+    }
+    else if (img->toutnoir){
+        return (-1);
+    }
+    else{
+        if ((img->fils[0]) == NULL && (img->fils[1]) == NULL && (img->fils[2]) == NULL && (img->fils[3]) == NULL){
+            return 1;
+        }
+        else{
+            if (estBlanche(img)){
+                //return  1 + (hautMaxBlanc(img->fils[0]) + hautMaxBlanc(img->fils[1]) + hautMaxBlanc(img->fils[2]) + hautMaxBlanc(img->fils[3]));
+                return maxInt(*max,1 + (aux_hautMaxBlanc(img->fils[0],max) + aux_hautMaxBlanc(img->fils[1],max) + aux_hautMaxBlanc(img->fils[2],max) + aux_hautMaxBlanc(img->fils[3],max)));
+            }
+            else{
+                return (-1);
+            }
+        }       
+    }
+    
     /*if (img == NULL){
         return 0;
     }
@@ -245,8 +287,10 @@ int aux_hautMaxBlanc(image img, int *max){
     //return __max(1,*max);
 }
 int hautMaxBlanc(image img){
-    int m = -2;
-    return aux_hautMaxBlanc(img, &m);
+    /*int m = -2;
+    return aux_hautMaxBlanc(img, &m);*/
+    return aux_hautMaxBlanc2(img);
+
     /*if (img == NULL){
         //printf("blanc \n");
         return 0;
@@ -422,12 +466,12 @@ int main(){
     //affiche_Normal(diagonale(3));
     //image img = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Noir(),construit_Blanc());
     
-    image img = construit_Composee(construit_Composee(construit_Noir(),construit_Blanc(),construit_Blanc(),construit_Noir()),construit_Blanc(),construit_Blanc(),construit_Blanc());
+    /*image img = construit_Composee(construit_Composee(construit_Noir(),construit_Blanc(),construit_Blanc(),construit_Noir()),construit_Blanc(),construit_Blanc(),construit_Blanc());
     //image img = construit_Composee(construit_Noir(),construit_Composee(construit_Noir(),construit_Blanc(),construit_Composee(construit_Noir(),construit_Noir(),construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir()),construit_Noir()),construit_Blanc()),construit_Composee(construit_Noir(),construit_Blanc(),construit_Noir(),construit_Composee(construit_Noir(),construit_Blanc(),construit_Noir(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()))),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Blanc()));
     //image img = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc());
     affiche_Normal(img);
     //quartDeTour(&img);
-    affiche_Normal(quartDeTour(img));
+    affiche_Normal(quartDeTour(img));*/
 
     //image img = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Noir());
     //image img = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Blanc());
@@ -456,6 +500,8 @@ int main(){
     // p = 1
     //printf("Max hauteur blanc %d \n", hautMaxBlanc(construit_Composee(construit_Noir(),construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()))));
     // p = -1
+    //printf("Max hauteur blanc %d \n", hautMaxBlanc(construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir()))));
+    // p = 0
     //printf("Max hauteur blanc %d \n", hautMaxBlanc(construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Noir()))));
     // p = 1
     //printf("Max hauteur blanc %d \n", hautMaxBlanc(construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc())));
