@@ -7,8 +7,6 @@ pour hautMaxBlanc 2 pbs, compte deux branches au lieu d'une
 et renvoi -1 si jamais on un N entre deux branches de B
 	|->	il faut utiliser le max pour garder la branche la plus longue
 
-quart de tour qui rend une image au lieu de transformer
-
 
 free les tmp
 	free un N dans negatif
