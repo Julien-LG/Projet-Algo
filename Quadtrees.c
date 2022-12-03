@@ -177,170 +177,64 @@ void simplifieProfP2(image *img, int p){
 }
 
 bool incluse(image img1, image img2){
-    if (img1 == NULL){
+    if (img1 == NULL)
         return TRUE;
-    }        
     else if (img1->toutnoir){
         if (img2 == NULL) return FALSE;
         else if (img2->toutnoir) return TRUE;
         else return FALSE;
     }
     else{
-        if (img2 == NULL)
-            return FALSE;
-        else if (img2->toutnoir)
-            return TRUE;
-        else 
-            return incluse(img1->fils[0],img2->fils[0]) && incluse(img1->fils[1],img2->fils[1]) && incluse(img1->fils[2],img2->fils[2]) && incluse(img1->fils[3],img2->fils[3]);
+        if (img2 == NULL) return FALSE;
+        else if (img2->toutnoir) return TRUE;
+        else return incluse(img1->fils[0],img2->fils[0]) && incluse(img1->fils[1],img2->fils[1]) && incluse(img1->fils[2],img2->fils[2]) && incluse(img1->fils[3],img2->fils[3]);
     }
 }
 int maxInt(int n1, int n2){
     return (n1>n2)?n1:n2;
 }
-int aux_hautMaxBlanc2(image img){
-    if (img == NULL){
-        return 0;
-    }
-    else if (img->toutnoir){
-        return (-1);
-    }
-    else{
-        if ((img->fils[0]) == NULL && (img->fils[1]) == NULL && (img->fils[2]) == NULL && (img->fils[3]) == NULL){
-            return 1;
-        }
-        else if (estBlanche(img)){
-            return 1 + maxInt(maxInt(maxInt(aux_hautMaxBlanc2(img->fils[0]),aux_hautMaxBlanc2(img->fils[1])),aux_hautMaxBlanc2(img->fils[2])),aux_hautMaxBlanc2(img->fils[3]));
-        }
-        else{
-            return maxInt(maxInt(maxInt(aux_hautMaxBlanc2(img->fils[0]),aux_hautMaxBlanc2(img->fils[1])),aux_hautMaxBlanc2(img->fils[2])),aux_hautMaxBlanc2(img->fils[3]));;
-        } 
-    }
-}
-int aux_hautMaxBlanc(image img, int *max){
-    if (img == NULL){
-        return 0;
-    }
-    else if (img->toutnoir){
-        return (-1);
-    }
-    else{
-        if ((img->fils[0]) == NULL && (img->fils[1]) == NULL && (img->fils[2]) == NULL && (img->fils[3]) == NULL){
-            return 1;
-        }
-        else{
-            if (estBlanche(img)){
-                //return  1 + (hautMaxBlanc(img->fils[0]) + hautMaxBlanc(img->fils[1]) + hautMaxBlanc(img->fils[2]) + hautMaxBlanc(img->fils[3]));
-                return maxInt(*max,1 + (aux_hautMaxBlanc(img->fils[0],max) + aux_hautMaxBlanc(img->fils[1],max) + aux_hautMaxBlanc(img->fils[2],max) + aux_hautMaxBlanc(img->fils[3],max)));
-            }
-            else{
-                return (-1);
-            }
-        }       
-    }
-    
-    /*if (img == NULL){
-        return 0;
-    }
-    else if (img->toutnoir){
-        return (-1);
-    }
-    else{
-        if ((img->fils[0]) == NULL && (img->fils[1]) == NULL && (img->fils[2]) == NULL && (img->fils[3]) == NULL)
-        {
-            return 1;
-        }
-        else{
-            if (estBlanche(img))
-
-                //return  1 + (hautMaxBlanc(img->fils[0]) + hautMaxBlanc(img->fils[1]) + hautMaxBlanc(img->fils[2]) + hautMaxBlanc(img->fils[3]));
-                return __max(*max,1 + (hautMaxBlanc(img->fils[0]) + hautMaxBlanc(img->fils[1]) + hautMaxBlanc(img->fils[2]) + hautMaxBlanc(img->fils[3])))
-            }
-            else{
-                return (-1);
-            }
-        }       
-    }*/
-    //return __max(1,*max);
-}
 int hautMaxBlanc(image img){
-    /*int m = -2;
-    return aux_hautMaxBlanc(img, &m);*/
-    return aux_hautMaxBlanc2(img);
-
-    /*if (img == NULL){
-        //printf("blanc \n");
+    if (img == NULL)
         return 0;
-    }
-    else if (img->toutnoir){
-        //printf("noir \n");
+    else if (img->toutnoir)
         return (-1);
-    }
     else{
-        //if (estBlanche(img))
-        if ((img->fils[0]) == NULL && (img->fils[1]) == NULL && (img->fils[2]) == NULL && (img->fils[3]) == NULL)
-        {
-            //printf("4 fils \n");
-            return 1;
-        }
-        else{
-            //printf("fils \n");
-            if (estBlanche(img))
-            {
-                return  1 + (hautMaxBlanc(img->fils[0]) + hautMaxBlanc(img->fils[1]) + hautMaxBlanc(img->fils[2]) + hautMaxBlanc(img->fils[3]));
-            }
-            else{
-                //return  1 + (hautMaxBlanc(img->fils[0]) + hautMaxBlanc(img->fils[1]) + hautMaxBlanc(img->fils[2]) + hautMaxBlanc(img->fils[3]));
-                return (-1);
-            }
-        }       
-    }*/
+        if ((img->fils[0]) == NULL && (img->fils[1]) == NULL && (img->fils[2]) == NULL && (img->fils[3]) == NULL) return 1;
+        else if (estBlanche(img)) return 1 + maxInt(maxInt(maxInt(hautMaxBlanc(img->fils[0]),hautMaxBlanc(img->fils[1])),hautMaxBlanc(img->fils[2])),hautMaxBlanc(img->fils[3]));
+        else return maxInt(maxInt(maxInt(hautMaxBlanc(img->fils[0]),hautMaxBlanc(img->fils[1])),hautMaxBlanc(img->fils[2])),hautMaxBlanc(img->fils[3]));;
+    }
 }
 
 void blanchitProfP(image* img, int p, int x, int y){
     float pp = (pow(2,p)-1);
-    printf("\n p = %p\n",p);
     if (x >= 0 && y >= 0 && x <= pp && y <= pp){
-        printf("\n passe x : %d y : %d pp/2 : %f \n", x, y, pp/2);
-        if (p == 0){
-            //*img = construit_Blanc();
+        if (p == 0)
             *img = NULL;
-        }
         else{
-            //printf("\n passe x : %d y : %d pp/2 : %f \n", x, y, pp/2);
             int nbFils;
             if (x >= 0 && x < (pp/2)){
-                // fils 0 et 2
                 if (y >= (pp/2) && y <= pp){
-                    // fils 0
                     nbFils = 0;
                     y-=pp/2;
                 }
-                else{
-                    // fils 2
+                else
                     nbFils = 2;
-                }
             }
             else{
-                // fils 1 et 3
                 if (y >= (pp/2) && y <= pp){
-                    // fils 1
                     nbFils = 1;
                     x-=pp/2;
                     y-=pp/2;
                 }
                 else{
-                    // fils 3
                     nbFils = 3;
                     x-=pp/2;
                 }
             }
-            printf("\n fils = %d \n", nbFils);
-            if (img == NULL){
+            if (img == NULL)
                 *img = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc());
-            }
-            else if ((*img)->toutnoir){
+            else if ((*img)->toutnoir)
                 *img = construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir());
-            }
             
             blanchitProfP(&(*img)->fils[nbFils], p-1, x, y);
         }
