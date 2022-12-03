@@ -70,47 +70,23 @@ void affiche_Profondeur(image img){
 image aux_lecture(char *s, int *n){
     *n+=1;
     
-    if (*(s+(*n)) == 'N'){
+    if (*(s+(*n)) == 'N')
         return construit_Noir();
-    }
-    else if (*(s+(*n)) == 'B'){
+    else if (*(s+(*n)) == 'B')
         return construit_Blanc();
-    }
     else if (*(s+(*n)) == '('){
         image temp1 = aux_lecture(s, n);
-        //printf("%d\n", *n);
         image temp2 = aux_lecture(s, n);
-        //printf("%d\n", *n);
         image temp3 = aux_lecture(s, n);
-        //printf("%d\n", *n);
         image temp4 = aux_lecture(s, n);
-        //printf("%d\n", *n);
 
         return construit_Composee(temp1, temp2, temp3, temp4);
     }
-    else{
+    else
         aux_lecture(s,n);
-    }
 }
 image lecture(char *s){
-    /*image img;
-    if (s[0] != NULL){
-        switch (s[0]){
-        case 'B':
-            img = construit_Blanc();
-            break;
-        case 'N':
-            img = construit_Noir();
-            break;
-        case '(':
-            img = construit_Composee(lecture(s+1),lecture(s+2),lecture(s+3),lecture(s+4));
-            break;
-        default:
-            break;
-        }   
-    }*/
     int n = -1;
-    //printf("%d\n",n);
     return aux_lecture(s, &n);
 }
 
@@ -167,9 +143,8 @@ image quartDeTour(image img){
         return NULL;
     else if (img->toutnoir)
         return construit_Noir();
-    else{
+    else
         return construit_Composee(quartDeTour(img->fils[2]),quartDeTour(img->fils[0]),quartDeTour(img->fils[3]),quartDeTour(img->fils[1]));
-    }
 }
 
 void negatif(image *img){
@@ -183,19 +158,20 @@ void negatif(image *img){
     }
 }
 
-void simplifieProfP(image *img, int p){
+void simplifieProfP2(image *img, int p){    
     if (*img == NULL)
         return;
     else if ((*img)->toutnoir)
         return;
     else{
-        for (size_t i = 0; i < 4; i++){
-            if(((*img)->fils[i]) != NULL)
-                simplifieProfP(&((*img)->fils[i]),p-1);
-        }
         if (p == 0){
             if(estNoire(*img)) ((*img)) = construit_Noir();
             else if(estBlanche(*img)) ((*img)) = construit_Blanc();
+        }
+        else{
+            for (size_t i = 0; i < 4; i++){
+                simplifieProfP2(&((*img)->fils[i]),p-1);
+            }
         }
     }
 }
@@ -475,11 +451,11 @@ int main(){
 
     //image img = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Noir());
     //image img = construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Blanc());
-    /*image img = construit_Composee(construit_Noir(),construit_Composee(construit_Noir(),construit_Blanc(),construit_Composee(construit_Noir(),construit_Noir(),construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir()),construit_Noir()),construit_Blanc()),construit_Composee(construit_Noir(),construit_Blanc(),construit_Noir(),construit_Composee(construit_Noir(),construit_Blanc(),construit_Noir(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()))),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Blanc()));
+    image img = construit_Composee(construit_Noir(),construit_Composee(construit_Noir(),construit_Blanc(),construit_Composee(construit_Noir(),construit_Noir(),construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir()),construit_Noir()),construit_Blanc()),construit_Composee(construit_Noir(),construit_Blanc(),construit_Noir(),construit_Composee(construit_Noir(),construit_Blanc(),construit_Noir(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()))),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Blanc()));
     affiche_Normal(img);
     simplifieProfP(&img, 2);
     printf("\n");
-    affiche_Normal(img);*/
+    affiche_Normal(img);
 
     /*image img1 = construit_Composee(construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Noir()),construit_Blanc(),construit_Blanc(),construit_Blanc());
     image img2 = construit_Composee(construit_Noir(),construit_Blanc(),construit_Blanc(),construit_Blanc());
