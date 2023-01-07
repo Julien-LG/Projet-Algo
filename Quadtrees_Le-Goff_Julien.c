@@ -109,7 +109,8 @@ bool estBlanche(image img){
 }
 
 image diagonale(int p){
-    if (p == 1)
+    if (p == 0) return construit_Noir();
+    else if (p == 1)
         return construit_Composee(construit_Noir(),construit_Blanc(),construit_Blanc(),construit_Noir());
     else
         return construit_Composee(diagonale(p-1),construit_Blanc(),construit_Blanc(),diagonale(p-1));
@@ -150,8 +151,10 @@ image quartDeTour(image img){
 void negatif(image *img){
     if (*img == NULL)
         *img = construit_Noir();
-    else if ((*img)->toutnoir)
+    else if ((*img)->toutnoir){
+        free(*img);
         *img = construit_Blanc();
+    }
     else{
         for (size_t i = 0; i < 4; i++)
             negatif(&(*img)->fils[i]);
@@ -177,17 +180,26 @@ void simplifieProfP2(image *img, int p){
 }
 
 bool incluse(image img1, image img2){
-    if (img1 == NULL)
+    if (img1 == NULL) //si img1 blanche alors toujours incluse
         return TRUE;
-    else if (img1->toutnoir){
-        if (img2 == NULL) return FALSE;
-        else if (img2->toutnoir) return TRUE;
-        else return FALSE;
+    else if (img1->toutnoir){ //si img 1 noire
+        if (img2 == NULL) return FALSE; // et img2 blanche alors jamais incluse
+        else if (img2->toutnoir) return TRUE; // et img2 noire alors incluse
+        else { // et img2 composee alors ...
+            if (estNoire(img2)) return TRUE;
+            else return FALSE; 
+        }
     }
-    else{
-        if (img2 == NULL) return FALSE;
-        else if (img2->toutnoir) return TRUE;
-        else return incluse(img1->fils[0],img2->fils[0]) && incluse(img1->fils[1],img2->fils[1]) && incluse(img1->fils[2],img2->fils[2]) && incluse(img1->fils[3],img2->fils[3]);
+    else{ // si img1 composee
+        if (img2 == NULL){ // et img2 blanche alors jamais incluse
+            if (estBlanche(img1)) return TRUE;
+            else return FALSE; 
+        } 
+        else if (img2->toutnoir) return TRUE; // et img2 noire alors toujours incluse
+        else { // et img2 composee alors ...
+            return incluse(img1->fils[0],img2->fils[0]) && incluse(img1->fils[1],img2->fils[1]) 
+            && incluse(img1->fils[2],img2->fils[2]) && incluse(img1->fils[3],img2->fils[3]);
+        }
     }
 }
 int maxInt(int n1, int n2){
@@ -358,7 +370,15 @@ int main(){
     //printf("inclus ? %d \n", incluse(construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Noir()),construit_Blanc()));
     //printf("inclus ? %d \n", incluse(construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Blanc()));
     //printf("inclus ? %d \n", incluse(construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Noir()),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Noir(),construit_Blanc())));
-    
+    //printf("inclus ? %d \n", incluse(construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Blanc())));
+    //printf("inclus ? %d \n", incluse(construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir()),construit_Composee(construit_Noir(),construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir()),construit_Noir(),construit_Noir())));
+    //printf("inclus ? %d \n", incluse(lecture("(((BBBB)NBN)BN((BBNN)BB(NBBN)))"),lecture("((BNNN)(BBNB)(NNNN)(NBN(NNNB)))")));
+    //printf("inclus ? %d \n", incluse(lecture("(((BBBB)NBN)BN((BBNN)BB(NBBN)))"),lecture("((BNNN)(BBNB)(NNNN)(NBN(NNNN)))")));
+    //printf("inclus ? %d \n", incluse(lecture("(NNNN)"),lecture("(N(NNNN)NN)")));
+    //printf("inclus ? %d \n", incluse(lecture("(BBBB)"),lecture("(BB(BBBB)B)")));
+    //printf("inclus ? %d \n", incluse(lecture("(BBBB)"),lecture("B")));
+    //printf("inclus ? %d \n", incluse(lecture("(NNNN)"),lecture("N")));
+
     // p = 2
     //printf("Max hauteur blanc %d \n", hautMaxBlanc(construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()))));
     // p = 3
@@ -400,14 +420,15 @@ int main(){
     printf("%s \n", s);
     affiche_Normal(lecture(s));*/
 
-    /*char s[] = "(N(NB(NN(NNNN)N)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
+    char s[] = "(N(NB(NN(NNNN)N)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
     //printf("%s \n", s);
     image img = lecture(s);
     
-    printf("(N(NBNB)(NBN(NBN(BBBB)))(BBBB)) \n");
+    //printf("(N(NBNB)(NBN(NBN(BBBB)))(BBBB)) \n");
+    printf("%s \n",s);
 
-    simplifieProfP(&img, 2);
-    affiche_Normal(img);*/
+    simplifieProfP2(&img, 2);
+    affiche_Normal(img);
 
     /*image img1 = construit_Noir();
     image img2 = construit_Blanc();*/
