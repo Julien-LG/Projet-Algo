@@ -1,10 +1,12 @@
 # Projet-Algo
 Projet pour la matière Algorithmique de L3 Info.
 
-Le but de ce projet et notamment d'utiliser la récursivité, les pointeurs et le passage par adresse pour résoudre des problèmes algorithmiques.
+Le but de ce projet est d'utiliser la récursivité, les pointeurs et le passage par adresse pour résoudre des problèmes algorithmiques.
 Les différentes questions traites de listes chainées et de QuadTrees.
 
 `2022` - `C`, `Algo`, `Optimisation`, `VisualStudioCode`
+
+Pour otenir plus d'informations sur ce projet n'hésitez à consoluter le Sujet : https://github.com/Julien-LG/Projet-Algo/blob/master/Sujet.pdf
 
 ### Exemple de Liste Chainée
 ![ListeChainee](Annexe/ListeChainee.png)
