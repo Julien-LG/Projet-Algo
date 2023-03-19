@@ -6,11 +6,11 @@ Les différentes questions traites de listes chainées et de QuadTrees.
 
 `2022` - `C`, `Algo`, `Optimisation`, `VisualStudioCode`
 
-## Liste Chainée
+## Exemple de Liste Chainée
 ![ListeChainee](Annexe/ListeChainee.png)
 
 
-## QuadTrees
+## Exemple de QuadTrees
 ![QuadTrees](Annexe/QuadTrees.png)
 
 J'ai pour ce projet réalisé en monôme obtenu la note de 18.85/20.
