@@ -6,7 +6,7 @@ Les différentes questions traites de listes chainées et de QuadTrees.
 
 `2022` - `C`, `Algo`, `Optimisation`, `VisualStudioCode`
 
-Pour otenir plus d'informations sur ce projet n'hésitez à consoluter le Sujet : https://github.com/Julien-LG/Projet-Algo/blob/master/Sujet.pdf
+Pour obtenir plus d'informations sur ce projet n'hésitez à consulter le sujet : https://github.com/Julien-LG/Projet-Algo/blob/master/Sujet.pdf
 
 ### Exemple de Liste Chainée
 ![ListeChainee](Annexe/ListeChainee.png)
