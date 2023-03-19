@@ -1,2 +1,0 @@
-free les tmp
-	free un N dans negatif

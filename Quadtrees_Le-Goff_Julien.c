@@ -85,7 +85,16 @@ image aux_lecture(char *s, int *n){
     else
         aux_lecture(s,n);
 }
-image lecture(char *s){
+image lecture(){
+    char s[254];
+    int n = -1;
+
+    printf("Veuillez entrer votre image au format texte ? ");
+    scanf("%s", s);
+    return aux_lecture(s, &n);
+}
+
+image stringToImage(char *s){
     int n = -1;
     return aux_lecture(s, &n);
 }
@@ -96,7 +105,8 @@ bool estNoire(image img){
     else if (img->toutnoir)
         return TRUE;
     else
-        return estNoire(img->fils[0]) && estNoire(img->fils[1]) && estNoire(img->fils[2]) && estNoire(img->fils[3]);
+        return estNoire(img->fils[0]) && estNoire(img->fils[1]) 
+            && estNoire(img->fils[2]) && estNoire(img->fils[3]);
 }
 
 bool estBlanche(image img){
@@ -105,7 +115,8 @@ bool estBlanche(image img){
     else if (img->toutnoir)
         return FALSE;
     else
-        return estBlanche(img->fils[0]) && estBlanche(img->fils[1]) && estBlanche(img->fils[2]) && estBlanche(img->fils[3]);
+        return estBlanche(img->fils[0]) && estBlanche(img->fils[1]) 
+            && estBlanche(img->fils[2]) && estBlanche(img->fils[3]);
 }
 
 image diagonale(int p){
@@ -145,7 +156,8 @@ image quartDeTour(image img){
     else if (img->toutnoir)
         return construit_Noir();
     else
-        return construit_Composee(quartDeTour(img->fils[2]),quartDeTour(img->fils[0]),quartDeTour(img->fils[3]),quartDeTour(img->fils[1]));
+        return construit_Composee(quartDeTour(img->fils[2]),quartDeTour(img->fils[0]),
+                                  quartDeTour(img->fils[3]),quartDeTour(img->fils[1]));
 }
 
 void negatif(image *img){
@@ -168,8 +180,14 @@ void simplifieProfP2(image *img, int p){
         return;
     else{
         if (p == 0){
-            if(estNoire(*img)) ((*img)) = construit_Noir();
-            else if(estBlanche(*img)) ((*img)) = construit_Blanc();
+            if(estNoire(*img)){
+                free(*img);
+                ((*img)) = construit_Noir();
+            }
+            else if(estBlanche(*img)){
+                free(*img);
+                ((*img)) = construit_Blanc();
+            }
         }
         else{
             for (size_t i = 0; i < 4; i++){
@@ -198,14 +216,14 @@ bool incluse(image img1, image img2){
         else if (img2->toutnoir) return TRUE; // et img2 noire alors toujours incluse
         else { // et img2 composee alors ...
             return incluse(img1->fils[0],img2->fils[0]) && incluse(img1->fils[1],img2->fils[1]) 
-            && incluse(img1->fils[2],img2->fils[2]) && incluse(img1->fils[3],img2->fils[3]);
+                && incluse(img1->fils[2],img2->fils[2]) && incluse(img1->fils[3],img2->fils[3]);
         }
     }
 }
 int maxInt(int n1, int n2){
     return (n1>n2)?n1:n2;
 }
-int hautMaxBlanc(image img){
+/*int hautMaxBlanc(image img){
     if (img == NULL)
         return 0;
     else if (img->toutnoir)
@@ -214,6 +232,21 @@ int hautMaxBlanc(image img){
         if ((img->fils[0]) == NULL && (img->fils[1]) == NULL && (img->fils[2]) == NULL && (img->fils[3]) == NULL) return 1;
         else if (estBlanche(img)) return 1 + maxInt(maxInt(maxInt(hautMaxBlanc(img->fils[0]),hautMaxBlanc(img->fils[1])),hautMaxBlanc(img->fils[2])),hautMaxBlanc(img->fils[3]));
         else return maxInt(maxInt(maxInt(hautMaxBlanc(img->fils[0]),hautMaxBlanc(img->fils[1])),hautMaxBlanc(img->fils[2])),hautMaxBlanc(img->fils[3]));;
+    }
+}*/
+int hauteurImage(image img){
+    if (img == NULL) return 0;
+    else if (img->toutnoir) return 0;
+    else return 1 + maxInt(maxInt(maxInt(hauteurImage(img->fils[0]),hauteurImage(img->fils[1])),
+                                        hauteurImage(img->fils[2])),hauteurImage(img->fils[3]));
+}
+int hautMaxBlanc(image img){
+    if (img == NULL) return 0;
+    else if (img->toutnoir) return (-1);
+    else{
+        if (estBlanche(img)) return hauteurImage(img);
+        else return maxInt(maxInt(maxInt(hautMaxBlanc(img->fils[0]),hautMaxBlanc(img->fils[1])),
+                                        hautMaxBlanc(img->fils[2])),hautMaxBlanc(img->fils[3]));;
     }
 }
 
@@ -256,64 +289,62 @@ void echange(image *img1, image *img2){
     image temp = *img1;
     *img1 = *img2;
     *img2 = temp;
-    free(temp);
+    //free(temp);
 }
-// l'image 1 est au dessus de l'image 2
+
 void tombe(image *img1, image *img2){
-    /*if (img2 == NULL && img1 != NULL){
-        image temp = *img1;
-        *img1 = *img2;
-        *img2 = temp;
-    }*/
-    if (img1 == NULL){
-        return;
-    }
-    else{
-        if ((*img1)->toutnoir){
-            if (img2 == NULL){
-                echange(img1, img2);
-            }
-            else if ((*img1)->toutnoir){
-                return;
-            }
-            else{
-                //chute(img2);
-                tombe(&((*img2)->fils[0]),&((*img2)->fils[2]));
-                tombe(&((*img2)->fils[1]),&((*img2)->fils[3]));
-                echange(img1, img2);
-            }
+    if (*img1 == NULL){ //img1 est blanche
+        if (*img2 == NULL) return;
+        else if ((*img2)->toutnoir) return;
+        else {
+            tombe(&((*img2)->fils[0]),&((*img2)->fils[2]));
+            tombe(&((*img2)->fils[1]),&((*img2)->fils[3]));
+            return;
         }
-        else{
-            if (img2 == NULL){
-                echange(img1, img2);
-            }
-            else if ((*img1)->toutnoir){
-                return;
-            }
-            else{
-                tombe(&((*img1)->fils[0]),&((*img1)->fils[2]));
-                tombe(&((*img1)->fils[1]),&((*img1)->fils[3]));
-                tombe(&((*img2)->fils[0]),&((*img2)->fils[2]));
-                tombe(&((*img2)->fils[1]),&((*img2)->fils[3]));
-                //chute(img1);
-                //chute(img2);
-                echange(&((*img1)->fils[1]),&((*img2)->fils[0]));
-                echange(&((*img1)->fils[3]),&((*img1)->fils[2]));
-                
-                tombe(&((*img1)->fils[0]),&((*img1)->fils[2]));
-                tombe(&((*img1)->fils[1]),&((*img1)->fils[3]));
-                tombe(&((*img2)->fils[0]),&((*img2)->fils[2]));
-                tombe(&((*img2)->fils[1]),&((*img2)->fils[3]));
-                //chute(img1);
-                //chute(img2);
-                echange(&((*img1)->fils[1]),&((*img2)->fils[0]));
-                echange(&((*img1)->fils[3]),&((*img1)->fils[2]));
-            }
+    }
+    else if ((*img1)->toutnoir){ //img1 est noire
+        if (*img2 == NULL) echange(img1, img2);
+        else if ((*img2)->toutnoir) return;
+        else {
+            tombe(&((*img2)->fils[0]),&((*img2)->fils[2]));
+            tombe(&((*img2)->fils[1]),&((*img2)->fils[3]));
+            echange(img1, img2);
+            return;
+        }
+    }
+    else { //img1 est un composee
+        // on fait tomber au maximum les elements de l'image 1
+        tombe(&((*img1)->fils[0]),&((*img1)->fils[2]));
+        tombe(&((*img1)->fils[1]),&((*img1)->fils[3]));
+
+        if (*img2 == NULL) {
+            echange(img1, img2);
+            return;
+        }
+        else if ((*img2)->toutnoir) return;
+        else {
+            // on fait tomber au maximum les elements de l'image 2
+            tombe(&((*img2)->fils[0]),&((*img2)->fils[2]));
+            tombe(&((*img2)->fils[1]),&((*img2)->fils[3]));
+
+            // on fait le lien entre les deux images et on fait tomber les éléments entre les images
+            tombe(&((*img1)->fils[2]),&((*img2)->fils[0]));
+            tombe(&((*img1)->fils[3]),&((*img2)->fils[1]));
+
+            // on refait tomber les elements de l'image 1 pour que ce soit bien adapté
+            tombe(&((*img1)->fils[0]),&((*img1)->fils[2]));
+            tombe(&((*img1)->fils[1]),&((*img1)->fils[3]));
+
+            // on refait tomber les elements de l'image 2 pour que ce soit bien adapté
+            tombe(&((*img2)->fils[0]),&((*img2)->fils[2]));
+            tombe(&((*img2)->fils[1]),&((*img2)->fils[3]));
+            return;
         }
     }
 }
+
 void chute(image *img){
-    if (img == NULL){
+    if (*img == NULL){
         return;
     }        
     else if ((*img)->toutnoir){
@@ -325,7 +356,6 @@ void chute(image *img){
     }
 }
 
-
 int main(){
     //affiche_Normal(construit_Composee(construit_Noir(),construit_Noir(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Noir(),construit_Blanc(),construit_Blanc())));
     //affiche_Normal(construit_Blanc());
@@ -334,7 +364,7 @@ int main(){
     printf("\n");
     affiche_Profondeur(construit_Composee(construit_Noir(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Noir(),construit_Blanc()),construit_Blanc(),construit_Composee(construit_Noir(),construit_Composee(construit_Noir(),construit_Noir(),construit_Blanc(),construit_Composee(construit_Noir(),construit_Blanc(),construit_Noir(),construit_Noir())),construit_Blanc(),construit_Noir())));
     */
-    //affiche_Normal(lecture("(B,N,N,B"));
+    //affiche_Normal(stringToImage("(B,N,N,B"));
 
     //printf ("%d",estNoire(construit_Composee(construit_Noir(),construit_Noir(),construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir()),construit_Blanc())));
     //printf ("%d",estBlanche(construit_Composee(construit_Blanc(),construit_Noir(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Blanc())));
@@ -372,12 +402,12 @@ int main(){
     //printf("inclus ? %d \n", incluse(construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Noir()),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Noir(),construit_Blanc())));
     //printf("inclus ? %d \n", incluse(construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()),construit_Blanc())));
     //printf("inclus ? %d \n", incluse(construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir()),construit_Composee(construit_Noir(),construit_Composee(construit_Noir(),construit_Noir(),construit_Noir(),construit_Noir()),construit_Noir(),construit_Noir())));
-    //printf("inclus ? %d \n", incluse(lecture("(((BBBB)NBN)BN((BBNN)BB(NBBN)))"),lecture("((BNNN)(BBNB)(NNNN)(NBN(NNNB)))")));
-    //printf("inclus ? %d \n", incluse(lecture("(((BBBB)NBN)BN((BBNN)BB(NBBN)))"),lecture("((BNNN)(BBNB)(NNNN)(NBN(NNNN)))")));
-    //printf("inclus ? %d \n", incluse(lecture("(NNNN)"),lecture("(N(NNNN)NN)")));
-    //printf("inclus ? %d \n", incluse(lecture("(BBBB)"),lecture("(BB(BBBB)B)")));
-    //printf("inclus ? %d \n", incluse(lecture("(BBBB)"),lecture("B")));
-    //printf("inclus ? %d \n", incluse(lecture("(NNNN)"),lecture("N")));
+    //printf("inclus ? %d \n", incluse(stringToImage("(((BBBB)NBN)BN((BBNN)BB(NBBN)))"),stringToImage("((BNNN)(BBNB)(NNNN)(NBN(NNNB)))")));
+    //printf("inclus ? %d \n", incluse(stringToImage("(((BBBB)NBN)BN((BBNN)BB(NBBN)))"),stringToImage("((BNNN)(BBNB)(NNNN)(NBN(NNNN)))")));
+    //printf("inclus ? %d \n", incluse(stringToImage("(NNNN)"),stringToImage("(N(NNNN)NN)")));
+    //printf("inclus ? %d \n", incluse(stringToImage("(BBBB)"),stringToImage("(BB(BBBB)B)")));
+    //printf("inclus ? %d \n", incluse(stringToImage("(BBBB)"),stringToImage("B")));
+    //printf("inclus ? %d \n", incluse(stringToImage("(NNNN)"),stringToImage("N")));
 
     // p = 2
     //printf("Max hauteur blanc %d \n", hautMaxBlanc(construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Composee(construit_Blanc(),construit_Blanc(),construit_Blanc(),construit_Blanc()))));
@@ -418,17 +448,19 @@ int main(){
     //char s[] = "((NNNN)NBN)";
     //char s[] = "(NNBN)";
     printf("%s \n", s);
-    affiche_Normal(lecture(s));*/
+    affiche_Normal(stringToImage(s));*/
 
-    char s[] = "(N(NB(NN(NNNN)N)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
+    /*char s[] = "(N(NB(NN(NNNN)N)B)(NBN(NBN(BBBB)))(BB(BBBB)B))";
     //printf("%s \n", s);
-    image img = lecture(s);
+    image img = stringToImage(s);
     
     //printf("(N(NBNB)(NBN(NBN(BBBB)))(BBBB)) \n");
     printf("%s \n",s);
 
     simplifieProfP2(&img, 2);
-    affiche_Normal(img);
+    affiche_Normal(img);*/
+
+    //affiche_Normal(lecture());
 
     /*image img1 = construit_Noir();
     image img2 = construit_Blanc();*/
@@ -438,4 +470,38 @@ int main(){
     chute(&img3);
     printf("\n");
     affiche_Normal(img3);*/
+
+    //printf("Max hauteur %d \n", hauteurImage(stringToImage("(B(NBBN)N(B(NNNN)BN))")));
+    //image imgChute = stringToImage("(NNBB)"); //OK
+    //image imgChute = stringToImage("(NNNN)"); //OK
+    //image imgChute = stringToImage("(BBBB)"); //OK
+    //image imgChute = stringToImage("((NBBB)(NNNN)BN)"); //OK
+    //image imgChute = stringToImage("((BBBN)BBB)");
+    //image imgChute = stringToImage("(BB(NBBB)B)");
+    //image imgChute = stringToImage("((BBBN)BBB)"); //OK
+    //image imgChute = stringToImage("((NBBB)BBB)"); //OK
+    //image imgChute = stringToImage("((BBNB)B(BBNB)B)"); //OK
+    //image imgChute = stringToImage("((NBNB)B(NBBB)B)"); //OK
+    image imgChute = stringToImage("(N((NBNN)NB(BNBN))(N(NBBN)(BNNN)(NBNB))(NN(NBBB)(BNBN)))"); //OK
+
+    chute(&imgChute);
+    affiche_Normal(imgChute);
+
+    /*image imgChute1 = stringToImage("(BBBN)");
+    image imgChute2 = stringToImage("B");
+    //image imgChute2 = stringToImage("(NNNN)");
+    tombe(&imgChute1,&imgChute2);
+    //echange(&imgChute2,&imgChute1);
+    //echange(&imgChute1,&imgChute2);
+    printf("Dans le main : \n");
+    affiche_Normal(imgChute1);
+    affiche_Normal(imgChute2);*/
+
+    //image imgChute1 = stringToImage("(BBBN)");
+    //tombe(&((imgChute1)->fils[0]),&((imgChute1)->fils[2]));
+    //tombe(&((imgChute1)->fils[1]),&((imgChute1)->fils[3]));
+    /*affiche_Normal(((imgChute1)->fils[0]));
+    affiche_Normal(((imgChute1)->fils[1]));
+    affiche_Normal(((imgChute1)->fils[2]));
+    affiche_Normal(((imgChute1)->fils[3]));*/
 }
